@@ -1,0 +1,1247 @@
+##################################################################################
+# Name: Emily Saint
+# Course: ICS4U
+# File: saint_emily_Assign01.py
+# Description:
+# A banking application that a teller in a bank might use to record in-person
+# customer transactions for multiple customers. Review of grade 11 curriculum.
+# History:
+# 2021.24.02 Creation
+# 2021.25.02 Modified main loop, balance
+#   function created, and incode notes
+# 2021.26.02 Transfer functon created and pseudocode
+# 2021.26.02 Final
+##################################################################################
+
+import datetime
+    
+##################################################################################
+# FCN NAME: openFile
+# DESCRIPTION: Opend file for reading
+# INPUTS: costomers.txt file from computer
+# OUTPUTS: none
+# ALGORITHM:
+# DEFINE openFile
+#     TRY:
+#         OPEN customers.txt in read mode (file)
+#     EXCEPT FileNotFoundError
+#         PUT "Failed to open INSERT file name for reading" to screen
+#     ELSE
+#         READ lines (phrase)
+#         CREATE dictionary usernameToUser
+#         FOR line in phrase
+#             STRIP line (line)
+#             SPLIT line with commas (splitLine)
+#             SET username to splitLine[zero]
+#             SET user to splitLine[one:]
+#             SET usename to equal user
+#         #END FOR
+#         CLOSE file
+#     #END TRY
+#     RETURN usernameToUser
+# #END OPENFILE
+# History:
+# 2021.24.02 Creation
+# 2021.25.02 Final
+##################################################################################
+
+#OPENS INPUT FILE FOR READING
+def openFile():
+    try:
+        file = open('customers.txt', 'r')
+    except FileNotFoundError:
+        print ("Failed to open %s for reading" % file)
+    else:
+        phrase = file.readlines()
+        usernameToUser = {}
+        for line in phrase:
+            line = line.strip()
+            splitLine = line.split(",")
+
+            username = splitLine[0]
+            user = splitLine[1:]
+            usernameToUser[username] = user
+        #END FOR
+        file.close()
+    #END TRY
+    return usernameToUser
+#END OPENFILE
+
+##################################################################################
+# FCN NAME: SAVEROFILE
+# DESCRIPTION: Saves all changes to file
+# INPUTS: customers.txt file from computer
+# ALGORITHM:
+# #SAVES ALL CHANGES TO INPUT FILE
+# DEFINE saveToFile (usernameToUser)
+#     TRY
+#         OPEN customers.txt in write mode (file)
+#     EXCEPT FileNotFoundError
+#         PUT"Failed to open INSERT file name for reading" to screen
+#     ELSE
+#         FOR usernameAndUser in usernameToUser.items()
+#             SET line to equal ditionary key and its contents followed
+#               by new line
+#             WRITE line in file
+#         #END FOR
+#         CLOSE file
+#     #END TRY
+# #END SAVETOFILE()
+# History:
+# 2021.24.02 Creation
+# 2021.25.02 Final
+##################################################################################
+
+#SAVES ALL CHANGES TO INPUT FILE
+def saveToFile(usernameToUser):
+    try:
+        file = open('customers.txt', 'w')
+    except FileNotFoundError:
+        print ("Failed to open %s for reading" % file)
+    else:
+        dateObject = str(datetime.datetime.today()).split()[0]
+        for usernameAndUser in usernameToUser.items():
+            line = usernameAndUser[0] + "," + ",".join(usernameAndUser[1]) + '\n'
+            file.write(line)
+        #END FOR
+        file.close()
+    #END TRY
+#END SAVETOFILE()
+
+##################################################################################
+# FCN NAME: SAVETONEWFILE
+# DESCRIPTION: Saves all changes to ouput file
+# INPUTS: transactions.txt file from computer
+# OUTPUTS: All transaction history to new file
+# ALGORITHM:
+# #SAVES ALL CHANGES TO NEW FILE
+# DEFINE saveToNewFile (username, user, transactionHistoryType)
+#     TRY
+#         OPEN transactions.txt in append mode (newFil)
+#     EXCEPT FileNotFoundError
+#         PUT "Failed to open INSERT file name for reading" to screen
+#     ELSE
+#         SET newLine to equal username, first name, last name,
+#           checking balance, savings balance, dateObject seperated with commas
+#         WRITE newLine and transactionHistoryType to newFile followed
+#           by new line
+#         CLOSE newFile
+#     #END TRY
+# #END SAVETONEWFILE()
+# History:
+# 2021.25.02 Creation
+# 2021.25.02 Final
+##################################################################################
+
+#SAVES ALL CHANGES TO NEW FILE
+def saveToNewFile(username, user, transactionHistoryType):
+    try:
+        newFile = open('transactions.txt', 'a')
+    except FileNotFoundError:
+        print ("Failed to open %s for reading" % file)
+    else:
+        newLine = username + "," + user[0] + "," + user[1] + "," + user[2] + "," + user[3] + "," + dateObject
+        newFile.write(newLine + "," + transactionHistoryType + "\n")
+        newFile.close()
+    #END TRY
+#END SAVETONEWFILE()
+        
+##################################################################################
+# FCN NAME: RETURNUSER
+# DESCRIPTION: Asks user if they are a returing user. If they are not, it
+# prompts them their information and appends the file. 
+# INPUTS: Prompts user if they are a returning user. If so, they then are
+# prompted to fill out their name, last name, checking balance, and savings
+# balanced. All from user's keyboard.
+# OUTPUTS: Outputs error message saying only when input is invalid
+# ALGORITHM:
+# DEFINE returnUser
+#     PROMPT user if they are returning user (returnUser)
+#     CHANGE returnUser to lower
+#     IF returnUser equals "yes"
+#         SET correctCust to equal True
+#     ELIF returnUser to equal "no
+#         PUT "Please fill out information below to set up account." to screen
+#         PROMPT user for username (intNewUser)
+#         CHANGE intNewUser to lowercase
+#         PROMPT user for first name (intNewFirstName)
+#         CHANGE intNewFirstName to lowercase
+#         PROMPT user for last name (intNewLastName)
+#         CHANGE intNewLastName to lowercase
+#         #CHECK FOR VALID CHECKING BALANCE INPUT
+#         SET goodToGo to equal True
+#         WHILE goodToGo
+#             PROMPT user for checking balance (intNewChecking)
+#             SET string two equal intNewChecking
+#             CALL floatCheck
+#             IF floatCheck and zero greater than FLOAT intNewChecking
+#                 CALL notValid
+#                 PUT "as it is less than zero." to screen
+#                 SET goodToGo to equal True
+#             ELIF floatCheck and FLOAT intNewChecking greater than zero
+#                 FLOAT intNewChecking
+#                 ROUND intNewChecking two two decimals
+#                 SET goodToGo to equal False
+#             ELSE
+#                 CALL notValid
+#                 PUT "as it is not a number." to screen
+#                 SET goodToGo to equal True
+#             #END IF
+#         #END WHILE
+#         #CHECK FOR VALID SAVINGS BALANCE INPUT
+#         SET goodToGo to equal True
+#         WHILE goodToGo
+#             PROMPT user for savings balance (intNewSavings)
+#             SET string to equal intNewSavings
+#             CALL floatCheck
+#             IF floatCheck and zero greater than FLOAT intNewSavings
+#                 CALL notValid
+#                 PUT "as it is less than zero." to screen
+#                 SET goodToGo to equal True
+#             ELIF floatCheck and FLOAT intNewSavings greater than zero
+#                 FLOAT intNewSavings (intNewSavings)
+#                 ROUND intNewSavings to two decimals (intNewSavings)
+#                 SET goodToGo to equal False
+#             ELSE
+#                 CALL notValid
+#                 PUT "as it is not a number." to screen
+#                 SET goodToGo to equal True
+#             #END IF
+#         #END WHILE
+#         #ADD NEW USER TO FILE
+#         TRY
+#             OPEN customers.txt in append mode (file)
+#         EXCEPT FileNotFoundError
+#             PUT "Failed to open file for reading" to screen
+#         ELSE
+#             ROUND intNewChecking to two decimals 
+#             ROUND intNewSavings to two decimals 
+#             SET newUserInfo to equal "INSERT intNewUser,intNewFirstName,
+#               intNewLastName,intNewChecking,intNewSavings"
+#             SET correctCust to equal True
+#             WRITE newUserInfo to file
+#         #END TRY
+#     ELSE
+#         SET correctCust to equal False
+#     #END IF
+#     RETURN correctCust
+#     CLOSE file
+# #END RETURNUSER()
+# History:
+# 2021.24.02 Creation
+# 2021.25.02 Addition of new customer
+# 2021.25.02 Final
+##################################################################################
+
+def returnUser():
+    returnUser = input("Are you a returning user (yes/no)? ")
+    returnUser = returnUser.lower()
+    if returnUser == "yes":
+        correctCust = True
+    elif returnUser == "no":
+        print("Please fill out information below to set up account.")
+        intNewUser = input("Set username to: ")
+        intNewUser = intNewUser.lower()
+        intNewFirstName = input("First name: ")
+        intNewFirstName = intNewFirstName.lower()
+        intNewLastName = input("Last name: ")
+        intNewLastName = intNewLastName.lower()
+        #CHECK FOR VALID CHECKING BALANCE INPUT
+        goodToGo = True
+        while goodToGo:
+            intNewChecking = input("Checking balance: ")
+            string = intNewChecking
+            floatCheck(string)
+            if floatCheck(string) and 0 >= float(intNewChecking):
+                notValid()
+                print("as it is less than zero.")
+                goodToGo = True
+            elif floatCheck(string) and (float(intNewChecking) >= 0):
+                intNewChecking = round(float(intNewChecking),2)
+                goodToGo = False
+            else:
+                notValid()
+                print("as it is not a number.")
+                goodToGo = True
+            #END IF
+        #END WHILE
+        #CHECK FOR VALID SAVINGS BALANCE INPUT
+        goodToGo = True
+        while goodToGo:
+            intNewSavings = input("Savings balance: ")
+            string = intNewSavings
+            floatCheck(string)
+            if floatCheck(string) and 0 >= float(intNewSavings):
+                notValid()
+                print("as it is less than zero.")
+                goodToGo = True
+            elif floatCheck(string) and (float(intNewSavings) >= 0):
+                intNewSavings = round(float(intNewSavings),2)
+                goodToGo = False
+            else:
+                notValid()
+                print("as it is not a number.")
+                goodToGo = True
+            #END IF
+        #END WHILE
+        #ADD NEW USER TO FILE
+        try:
+            file = open('customers.txt', 'a')
+        except FileNotFoundError:
+            print ("Failed to open %s for reading" % file)
+        else:
+            newUserInfo = ("\n%s,%s,%s,%.2f,%.2f" %(intNewUser,intNewFirstName,intNewLastName,intNewChecking,intNewSavings))
+            correctCust = True
+            file.write(newUserInfo)
+        #END TRY
+    else:
+        correctCust = False
+    #END IF
+    return correctCust
+    file.close()
+#END RETURNUSER()
+
+##################################################################################
+# FCN NAME: SETCUST
+# DESCRIPTION: Prompts user for username and checks if it is valid. 
+# INPUTS: Prompts user for username (username). All from user's keyboard.
+# OUTPUTS: Whether or not username is valid.
+# ALGORITHM:
+# #PROMPTS USER FOR USERNAME AND VERIFIES INPUT
+# DEFINE setCust
+#     PUT "\nSET customer OPTION" to screen
+#     SET username to be a global variable
+#     PROMPT user for username (username)
+#     CHANGE username to lowercase
+#     SET usernameToUser to equal openFile()
+#     TRY
+#         SET user to equal username
+#         PUT "Username is valid" to screen
+#         SET correctCust to equal True
+#         RETURN correctCust
+#     EXCEPT KeyError
+#         PUT "Username is not valid INSERT username" to screen
+#     #END TRY
+# #END SETCUST()
+# History:
+# 2021.24.02 Creation
+# 2021.25.02 Final
+##################################################################################
+
+#PROMPTS USER FOR USERNAME AND VERIFIES INPUT
+def setCust():
+    print("\nSET customer OPTION")
+    global username
+    username = input("Print username: ")
+    username = username.lower()
+    usernameToUser = openFile()
+    try :
+        user = usernameToUser[username]
+        print("Username is valid")
+        correctCust = True
+        return correctCust
+    except KeyError:
+        print("Username is not valid (%s)" %username)
+    #END TRY
+#END SETCUST()
+
+##################################################################################
+# FCN NAME: WHICHACCOPTONETWO
+# DESCRIPTION: Prompts user for which account to deposit or withdraw money
+# from when called and checks if input number is valid. 
+# INPUTS: Prompts user for which account to deposit or withdraw from. All from
+# user's keyboard.
+# OUTPUTS: whether input number is valid and is equal to one or two.
+# ALGORITHM:
+# #PROMPTS USER FOR WHICH ACCOUNT AND VERIFIES INPUT
+# DEFINE whichAccOptOneTwo
+#     SET correctwhichAccOptOneTwo to equal True
+#     WHILE correctwhichAccOptOneTwo is true
+#         PROMPT user for which account (account)
+#         IF account is equal to "1"
+#             SET correctwhichAccOptOneTwo to equal False
+#             RETURN "checking"
+#         ELIF account is equal to "2"
+#             SET correctwhichAccOptOneTwo to equal False
+#             RETURN "savings"
+#         ELSE
+#             PUT "You must choose 1 or 2" to screen
+#             SET correctwhichAccOptOneTwo to equal True
+#         #END IF
+#     #END WHILE
+# #END whichAccOptOneTwo()
+# History:
+# 2021.24.02 Creation
+# 2021.25.02 Final 
+##################################################################################
+
+#PROMPTS USER FOR WHICH ACCOUNT AND VERIFIES INPUT
+def whichAccOptOneTwo():
+    correctwhichAccOptOneTwo = True
+    while correctwhichAccOptOneTwo:
+        account = input("To which account checking(1) or savings(2)? ")
+        if account == "1":
+            correctwhichAccOptOneTwo = False
+            return "checking"
+        elif account == "2":
+            correctwhichAccOptOneTwo = False
+            return "savings"
+        else:
+            print ("You must choose \"1\" or \"2\"")
+            correctwhichAccOptOneTwo = True
+        #END IF
+    #END WHILE
+#END whichAccOptOneTwo()
+
+##################################################################################
+# FCN NAME: WHICHACCTRANSFER
+# DESCRIPTION: Prompts user for which account to transfer money from an to and
+# checks if input number is valid. 
+# INPUTS: Prompts user for which account to transfer to. All from user's
+# keyboard.
+# OUTPUTS: whether input number is valid and is equal to one or two.
+# ALGORITHM:
+# #PROMPTS USER FOR WHICH ACCOUNT TO TRANSFER TO AND VERIFIES INPUT
+# DEFINE whichAccTransfer
+#     SET correctwhichAccTransfer to equal True
+#     WHILE correctwhichAccTransfer is true
+#         PROMPT user for which account to transfer to and from (account)
+#         IF account to equal "1"
+#             SET correctwhichAccTransfer to equal False
+#             RETURN "checking to savings"
+#         ELIF account to equal "2"
+#             SET correctwhichAccTransfer to equal False
+#             RETURN "savings to checking"
+#         ELSE
+#             PUT "You must choose 1 or 2 " to screen
+#             SET correctwhichAccTransfer to equal True
+#         #END IF
+#     #END WHILE
+# #END whichAccTransfer()
+# History:
+# 2021.25.02 Creation
+# 2021.25.02 Final
+##################################################################################
+
+#PROMPTS USER FOR WHICH ACCOUNT TO TRANSFER TO AND VERIFIES INPUT
+def whichAccTransfer():
+    correctwhichAccTransfer = True
+    while correctwhichAccTransfer:
+        account = input("Transfer from checking to savings(1) or from savings to checking(2)? ")
+        if account == "1":
+            correctwhichAccTransfer = False
+            return "checking to savings"
+        elif account == "2":
+            correctwhichAccTransfer = False
+            return "savings to checking"
+        else:
+            print ("You must choose \"1\" or \"2\"")
+            correctwhichAccTransfer = True
+        #END IF
+    #END WHILE
+#END whichAccTransfer()
+
+##################################################################################
+# FCN NAME: FLOATCHECK
+# DESCRIPTION: Check if sting can be converted into a float value when called.
+# OUTPUTS: True or false is float string.
+# ALGORITHM:
+# #TRY CHANGING STRING TO FLOAT VALUE
+# DEFINE floatCheck (string)
+#     TRY
+#         FLOAT string and SET to i
+#     EXCEPT ValueError
+#         RETURN False
+#     ELSE
+#         RETURN True
+#     #END TRY
+# #END FLOATCHECK()
+# History:
+# 2021.24.02 Creation
+# 2021.24.02 Final
+##################################################################################
+
+#TRY CHANGING STRING TO FLOAT VALUE
+def floatCheck(string) :
+    try:
+        i = float(string)
+    except ValueError:
+        return False
+    else :
+        return True
+    #END TRY
+#END FLOATCHECK()
+
+##################################################################################
+# FCN NAME: NUMNOTVALID
+# DESCRIPTION: Displays invalid number message to shell when called.
+# OUTPUTS: Error message saying number is invalid. 
+# ALGORITHM:
+# #DISPLAYS INVALID NUMBER MESSAGE TO SHELL WHEN CALLED
+# DEFINE numNotValid
+#     PUT "Not VALID, number needs to be between 1 and 6." to screen
+# #END NUMNOTVALID()
+# History:
+# 2021.25.02 Creation
+# 2021.25.02 Final
+##################################################################################
+
+#DISPLAYS INVALID NUMBER MESSAGE TO SHELL WHEN CALLED
+def numNotValid():
+    print("Not VALID, number needs to be between 1 and 6.")
+#END NUMNOTVALID()
+
+##################################################################################
+# FCN NAME: NOTVALID
+# DESCRIPTION: Displays invalid message to shell when called.
+# OUTPUTS: Error message saying invalid. 
+# ALGORITHM:
+# #DISPLAYS INVALID MESSAGE TO SHELL WHEN CALLED
+# DEFINE notValid
+#     PUT "What you have typed is invalid" to screen
+# #END NOTVALID()
+# History:
+# 2021.25.02 Creation
+# 2021.25.02 Final
+##################################################################################
+
+#DISPLAYS INVALID MESSAGE TO SHELL WHEN CALLED
+def notValid():
+    print ("What you have typed is invalid")
+#END NOTVALID()
+
+##################################################################################
+# FCN NAME: DEPOSIT
+# DESCRIPTION: Deposits money into checking or savings acount when main option 2
+# (transfer) is selected and checks if user is valid.
+# INPUTS: Prompts user for username (username) and amount to deposit
+# (depositAmount). All from user's keyboard.
+# OUTPUTS: Checks whether username is valid or invalid. If valid, then prompts
+# user for amount to deposit and checks if number is valid. Then outputs
+# user's updated balance.
+# ALGORITHM:
+# #DISPLAYS NEW ACCOUNT BALANCE WHEN DEPOSIT OPTION IS SELECTED 
+# DEFINE deposit (depositAmount)
+#     SET usernameToUser to CALL openFile
+#     TRY
+#       SET user to equal username
+#     EXCEPT KeyError
+#       PUT "Username is not valid (username)" to screen
+#       RETURN
+#     #END TRY
+#     ELSE
+#         PUT "\nDEPOSIT OPTION" to screen
+#         SET acctType to CALL whichAccOptOneTwo
+#             
+#         SET correctNumDep to equal True
+#         WHILE correctNumDep
+#             PROMPT user for amount to deposit (string)
+#             IF floatCheck
+#                 FLOAT string (depositAmount)
+#                 FLOAT string (string)
+#                 IF depositAmount is greater than or equal to zero
+#                     SET correctNumDep to equal False
+#                 ELSE
+#                     CALL notValid
+#                     SET correctNumDep to equal True
+#                 #END IF
+#             ELSE
+#                 CALL notValid
+#                 SET correctNumDep to equal True
+#             #END IF
+#         #END WHILE
+# 
+#         #DEPOSIT TO CHECKING
+#         IF acctType to equal "checking"
+#             FLOAT checking balance
+#             SET newCheckingBalance to the sum of checking balance
+#               and depositAmount
+#             ROUND newCheckingBalance to two decimals 
+#             CHANGE checking balance to string
+#             #DISPLAY UPDATED CHECKING BALALNCE TO SHELL
+#             PUT "\nUpdated checking balance is: $INSERT checking balance"
+#         #DEPOSIT TO SAVINGS
+#         ELIF acctType to equal "savings"
+#             FLOAT savings balance
+#             SET newSavingsBalance to equal the SUM of savings balance and
+#               depositAmount
+#             ROUND newSavingsBalance to two decimals
+#             CHANGE savings balance to string 
+#             #DISPLAY UPDATED SAVINGS BALALNCE TO SHELL
+#             PUT "\nUpdated savings balance is: $INSERT savings balance"
+#               to screen
+#         #END IF
+#             
+#         CALL saveToFile
+#         SET transactionHistoryType to equal "deposit"
+#         CALL saveToNewFile
+#         RETURN depositAmount
+#     #END TRY
+# #END DEPOSIT()
+# History:
+# 2021.24.02 Creation
+# 2021.25.02 Final
+##################################################################################
+
+#DISPLAYS NEW ACCOUNT BALANCE WHEN DEPOSIT OPTION IS SELECTED 
+def deposit(depositAmount):
+    usernameToUser = openFile()
+    try :
+      user = usernameToUser[username]
+    except KeyError:
+      print("Username is not valid (%s)" %username)
+      return
+    #END TRY
+    else:
+        print("\nDEPOSIT OPTION")
+        acctType = whichAccOptOneTwo()
+            
+        correctNumDep = True
+        while correctNumDep:
+            string = input("Amount to deposit: ")
+            if (floatCheck(string)):
+                depositAmount = float(string)
+                string = float(string)
+                if depositAmount >= 0:
+                    correctNumDep = False
+                else:
+                    notValid()
+                    correctNumDep = True
+                #END IF
+            else :
+                notValid()
+                correctNumDep = True
+            #END IF
+        #END WHILE
+
+        #DEPOSIT TO CHECKING
+        if acctType == "checking":
+            newCheckingBalance = float(user[2]) + depositAmount
+            newCheckingBalance = round(newCheckingBalance, 2)
+            user[2] = str(newCheckingBalance)
+            #DISPLAY UPDATED CHECKING BALALNCE TO SHELL
+            print("\nUpdated checking balance is: $%s" % user[2])
+        #DEPOSIT TO SAVINGS
+        elif acctType == "savings":
+            newSavingsBalance = float(user[3]) + depositAmount
+            newSavingsBalance = round(newSavingsBalance, 2)
+            user[3] = str(newSavingsBalance)
+            #DISPLAY UPDATED SAVINGS BALALNCE TO SHELL
+            print("\nUpdated savings balance is: $%s" % user[3])
+        #END IF
+            
+        saveToFile(usernameToUser)
+        transactionHistoryType = "deposit"
+        saveToNewFile(username, user, transactionHistoryType)
+        return depositAmount
+    #END TRY
+#END DEPOSIT()
+
+##################################################################################
+# FCN NAME: WITHDRAW
+# DESCRIPTION: Withdraws money form checking or savings account when main option
+# 3 (transfer) is selected and checks if user is valid.
+# INPUTS: Prompts user for username (username) and amount to withdraw
+# (withdrawtAmount). All from user's keyboard.
+# OUTPUTS: Checks whether username is valid or invalid. If valid, then prompts
+# user for amount to withdraw and checks if number is valid. Then outputs
+# user's updated balance.
+# ALGORITHM:
+#DISPLAYS NEW ACCOUNT BALANCE WHEN WITHDRAW OPTION IS SELECTED 
+# DEFINE withdraw (withdrawAmount)
+#     SET usernameToUser to OPEN file
+#     TRY
+#       SET user to equl username
+#     EXCEPT KeyError
+#       PUT "Username is not valid (username)" to screen
+#       RETURN
+#     ELSE
+#         PUT "\nWITHDRAW OPTION" to screen
+#         SET acctType to CALL whichAccOptOneTwo
+# 
+#         #CHECK IF VALID NUMBER TO WITHDRAW
+#         SET correctNumWith to equal True
+#         WHILE correctNumWith:
+#             PROMPT user for amount of withdraw (string)
+#             #CHECK FOR FLOAT VALUE
+#             IF floatCheck
+#                 SET withdrawAmount to equal string integer
+#                 IF withdrawAmount greater than or equal zero and
+#                   FLOAT checking balance greater than or equal
+#                       withdrawAmount and acctType is equal
+#                   to "checking"
+#                     SET correctNumWith to equal False
+#                 ELIF withdrawAmount greater than or equal zero and FLOAT
+#                   user[3] greater than or equal withdrawAmount and
+#                   acctType is equal to"savings"
+#                     SET correctNumWith to equal False
+#                 ELIF withdrawAmount is equal zero
+#                     SET correctNumWith to equal False
+#                 ELSE
+#                     IF zero greater than withdrawAmount
+#                         notValid()
+#                         PUT "Number is less than zero." to screen
+#                     ELSE
+#                         CALL notValid
+#                         PUT "Number is greater than balance in account
+#                           selected." to screen
+#                     SET correctNumWith to equal True
+#                     #END IF 
+#                 #END IF
+#             ELSE
+#                 CALL notValid
+#                 SET correctNumWith to equal True
+#             #END IF
+#         #END WHILE
+# 
+#         #WITHDRAW TO CHECKING
+#         IF acctType is equal to "checking"
+#             SET newCheckingBalance to equal the sum of FLOAT checking balance
+#               minus withdrawAmount
+#             ROUND newCheckingBalance to two decimals
+#             SET checking balance to equal string (newCheckingBalance)
+#             #DISPLAY UPDATED CHECKING BALALNCE TO SHELL
+#             PUT "\nUpdated checking balance is: $INSERT checking balance"
+#               to screen
+#         #WITHDRAW TO SAVINGS 
+#         ELIF acctType is equal to "savings"
+#             SET newSavingsBalance to equal the sum of FLOAT savings balance
+#               minus withdrawAmount
+#             ROUNF newSavingsBalance to two decimals
+#             SET savings balance to equal string (newSavingsBalance)
+#             #DISPLAY UPDATED SAVINGS BALALNCE TO SHELL
+#             PUT "\nUpdated savings balance is: $INSERT savings balance"
+#               to screen
+#         #END IF
+# 
+#         CALL saveToFile
+#         SET transactionHistoryType to equal "withdraw"
+#         CALL saveToNewFile
+#         RETURN withdrawAmount
+#     #END TRY
+# #END WITHDRAW()
+# History:
+# 2021.24.02 Creation
+# 2021.25.02 Final
+##################################################################################
+
+#DISPLAYS NEW ACCOUNT BALANCE WHEN WITHDRAW OPTION IS SELECTED 
+def withdraw(withdrawAmount):
+    usernameToUser = openFile()
+    try :
+      user = usernameToUser[username]
+    except KeyError:
+      print("Username is not valid (%s)" %username)
+      return
+    else:
+        print("\nWITHDRAW OPTION")
+        acctType = whichAccOptOneTwo()
+
+        #CHECK IF VALID NUMBER TO WITHDRAW
+        correctNumWith = True
+        while correctNumWith:
+            string = input("Amount to withdraw: ")
+            #CHECK FOR FLOAT VALUE
+            if(floatCheck(string)):
+                withdrawAmount = int(string)
+                if (withdrawAmount >= 0) and (float(user[2]) >= withdrawAmount) and (acctType == "checking"):
+                    correctNumWith = False
+                elif (withdrawAmount >= 0) and (float(user[3]) >= withdrawAmount) and (acctType == "savings"):
+                    correctNumWith = False
+                elif withdrawAmount == 0:
+                    correctNumWith = False
+                else:
+                    if 0 > withdrawAmount:
+                        notValid()
+                        print("Number is less than zero.")
+                    else:
+                        notValid()
+                        print("Number is greater than balance in account selected.")
+                    correctNumWith = True
+                    #END IF 
+                #END IF
+            else :
+                notValid()
+                correctNumWith = True
+            #END IF
+        #END WHILE
+
+        #WITHDRAW TO CHECKING
+        if acctType == "checking":
+            newCheckingBalance = float(user[2]) - withdrawAmount
+            newCheckingBalance = round(newCheckingBalance, 2)
+            user[2] = str(newCheckingBalance)
+            #DISPLAY UPDATED CHECKING BALALNCE TO SHELL
+            print("\nUpdated checking balance is: $%s" % user[2])
+        #WITHDRAW TO SAVINGS 
+        elif acctType == "savings":
+            newSavingsBalance = float(user[3]) - withdrawAmount
+            newSavingsBalance = round(newSavingsBalance, 2)
+            user[3] = str(newSavingsBalance)
+            #DISPLAY UPDATED SAVINGS BALALNCE TO SHELL
+            print("\nUpdated savings balance is: $%s" % user[3])
+        #END IF
+
+        saveToFile(usernameToUser)
+        transactionHistoryType = "withdraw"
+        saveToNewFile(username, user, transactionHistoryType)
+        return withdrawAmount
+    #END TRY
+#END WITHDRAW()
+
+##################################################################################
+# FCN NAME: TRANSFER
+# DESCRIPTION: Transfers money from checking to savings account or vice versa
+# when main option 4 (transfer) is selected and checks if user is valid. 
+# when
+# INPUTS: Prompts user for username (username) and amount to deposit
+# (depositAmount). All from user's keyboard.
+# OUTPUTS: Checks whether username is valid or invalid. If valid, then prompts
+# user for amount to withdraw and checks if number is valid. Then outputs
+# user's updated balance of both accounts.
+# ALGORITHM:
+# DEFINE transfer
+#     SET usernameToUser to OPEN file
+#     TRY
+#       SET user to equal username
+#     EXCEPT KeyError
+#       PUT "Username is not valid (username)" to screen
+#       RETURN
+#     ELSE
+#         PUT "\nTRANSFER OPTION" to screen
+#         SET acctType to CALL whichAccTransfer
+#         #CHECK IF VALID NUMBER TO WITHDRAW
+#         SET correctNumWith to equal True
+#         WHILE correctNumWith
+#             PROMPT user for amount to deposit (string)
+#             #CHECK FOR FLOAT VALUE
+#             IF floatCheck(string)
+#                 SET depositAmount to integer
+#                 IF acctType to equal "checking to savings" and FLOAT
+#                   checking balance greater than or equal depositAmount
+#                   and depositAmount greater than or equal zero
+#                     SET correctNumWith to equal False
+#                 ELIF acctType to equal "savings to checking" and FLOAT
+#                   savings balance greater than or equal depositAmount and
+#                   depositAmount greater than or equal zero
+#                     SET correctNumWith to equal False
+#                 ELSE
+#                     IF zero greater than depositAmount
+#                         CALL notValid
+#                         PUT "Number is less than zero." to equal
+#                     ELSE
+#                         CALL notValid
+#                         PUT "Number is greater than balance in account
+#                           selected." to equal
+#                     SET correctNumWith to equal True
+#                     #END IF
+#                 #END IF
+#             ELSE
+#                 CALL notValid
+#                 SET correctNumWith to equal True
+#             #END IF
+#         #END WHILE
+#                 
+#         #DEPOSIT TO SAVINGS AND WITHDRAW FROM CHECKING
+#         IF acctType to equal "checking to savings":
+#             SET newCheckingBalance to equal the sum of FLOAT checking balance
+#               minus depositAmount
+#             ROUND newCheckingBalance to two decimals
+#             SET checking balance to equal string newCheckingBalance 
+#             SET newSavingsBalance to equal the sum of FLOAT savings balance
+#               plus depositAmount
+#             ROUND newSavingsBalance to two decimals
+#             SET savings balance to equal string newSavingsBalance
+#             #DISPLAY UPDATED SAVINGS BALALNCE TO SHELL
+#             PUT "\nYou have transfered money to savings account" to screen
+#             PUT "Updated checking balance is: $INSERT checking balance"
+#               to screen
+#             PUT"Updated savings balance is: $INSERT savings balance" to screen
+#         #DEPOSIT TO CHECKING FROM SAVINGS
+#         ELIF acctType is equal to "savings to checking"
+#             SET newCheckingBalance to equal the sum of FLOAT checking balance
+#               plus depositAmount
+#             ROUND newCheckingBalance to two decimals
+#             SET checking balance to equal string newCheckingBalance
+#             SET newSavingsBalance to equal the sum of FLOAT savings balance
+#               minus depositAmount
+#             ROUND newSavingsBalance to two decimals
+#             SET savings balance to equal string newSavingsBalance
+#             #DISPLAY UPDATED CHECKING BALALNCE TO SHELL
+#             PUT "\nYou have transfered money to checking account" to screen
+#             PUT "Updated checking  balance is: $INSERT checking  balance"
+#               to screen
+#             PUT "Updated savings balance is: $INSERT savings balance"
+#               to screen
+#         #END IF
+#         CALL saveToFile
+#         SET transactionHistoryType to equal "transfer"
+#         CALL saveToNewFile
+#         RETURN depositAmount
+#     #END TRY
+# #END TRANSFER()
+# History:
+# 2021.25.02 Creation
+# 2021.25.02 Final
+##################################################################################
+
+def transfer():
+    usernameToUser = openFile()
+    try :
+      user = usernameToUser[username]
+    except KeyError:
+      print("Username is not valid (%s)" %username)
+      return
+    else:
+        print("\nTRANSFER OPTION")
+        acctType = whichAccTransfer()
+        #CHECK IF VALID NUMBER TO WITHDRAW
+        correctNumWith = True
+        while correctNumWith:
+            string = input("Amount to deposit: ")
+            #CHECK FOR FLOAT VALUE
+            if(floatCheck(string)):
+                depositAmount = int(string)
+                if acctType == "checking to savings" and (float(user[2])>= depositAmount) and depositAmount >= 0:
+                    correctNumWith = False
+                elif acctType == "savings to checking" and (float(user[3])>= depositAmount) and depositAmount >= 0:
+                    correctNumWith = False
+                else:
+                    if 0 > depositAmount:
+                        notValid()
+                        print("Number is less than zero.")
+                    else:
+                        notValid()
+                        print("Number is greater than balance in account selected.")
+                    correctNumWith = True
+                    #END IF
+                #END IF
+            else :
+                notValid()
+                correctNumWith = True
+            #END IF
+        #END WHILE
+                
+        #DEPOSIT TO SAVINGS AND WITHDRAW FROM CHECKING
+        if acctType == "checking to savings":
+            newCheckingBalance = float(user[2]) - depositAmount
+            newCheckingBalance = round(newCheckingBalance, 2)
+            user[2] = str(newCheckingBalance)
+            newSavingsBalance = float(user[3]) + depositAmount
+            newSavingsBalance = round(newSavingsBalance, 2)
+            user[3] = str(newSavingsBalance)
+            #DISPLAY UPDATED SAVINGS BALALNCE TO SHELL
+            print("\nYou have transfered money to savings account")
+            print("Updated checking balance is: $%s" % user[2])
+            print("Updated savings balance is: $%s" % user[3])
+        #DEPOSIT TO CHECKING FROM SAVINGS
+        elif acctType == "savings to checking":
+            newCheckingBalance = float(user[2]) + depositAmount
+            newCheckingBalance = round(newCheckingBalance, 2)
+            user[2] = str(newCheckingBalance)
+            newSavingsBalance = float(user[3]) - depositAmount
+            newSavingsBalance = round(newSavingsBalance, 2)
+            user[3] = str(newSavingsBalance)
+            #DISPLAY UPDATED CHECKING BALALNCE TO SHELL
+            print("\nYou have transfered money to checking account")
+            print("Updated checking  balance is: $%s" % user[2])
+            print("Updated savings balance is: $%s" % user[3])
+        #END IF
+        saveToFile(usernameToUser)
+        transactionHistoryType = "transfer"
+        saveToNewFile(username, user, transactionHistoryType)
+        return depositAmount
+    #END TRY
+#END TRANSFER()
+
+##################################################################################
+# FCN NAME: BALANCE 
+# DESCRIPTION: Displays user balance to shell when main option 5 (balance) is
+# selected and checks if user is valid.
+# INPUTS: Prompts user for username (username). All from user's keyboard.
+# OUTPUTS: Checks whether username is valid or invalid. If valid, the ouputs
+# user's name, last name, checking balance, and savings balance. 
+# ALGORITHM:
+# #DISPLAYS BALANCE TO SHELL WHEN OPTION IS SELECTED
+# DEFINE balance
+#     SET usernameToUser to equal OPEN file (file)
+#     TRY
+#       SET user to equal username
+#     EXCEPT KeyError
+#       PUT "Username is not valid INSERT username" to screen
+#     ELSE
+#         #DISPLAY BALANCE TO SHELL
+#         PUT "\nBALANCE OPTION" to screen
+#         PUT "Name: INSERT first name INSERT last name" to screen
+#         SET checking balance to equal ROUND to two decimals and FLOAT
+#           of checking balance
+#         SET savings balance to equal ROUND to two decimals and FLOAT
+#           of savings balance
+#         PUT "Current checking account balance: INSERT checking
+#           balance \nCurrent savings account balance: INSERT
+#           savings balance" to screen
+#               ROUND checking balance to two decimals
+#               ROUND savings balance to two decimals
+#     #END TRY
+# #END BALANCE()
+# History:
+# 2021.24.02 Creation
+# 2021.25.02 Final
+##################################################################################
+
+#DISPLAYS BALANCE TO SHELL WHEN OPTION IS SELECTED
+def balance():
+    usernameToUser = openFile()
+    try :
+      user = usernameToUser[username]
+    except KeyError:
+      print("Username is not valid (%s)" %username)
+    else:
+        #DISPLAY BALANCE TO SHELL
+        print("\nBALANCE OPTION")
+        print("Name: %s %s" % (user[0], user[1]))
+        user[2] = round(float(user[2]),2)
+        user[3] = round(float(user[3]),2)
+        print("Current checking account balance: $%-10.2f \nCurrent savings account balance:  $%-11.2f " % (user[2], user[3]))
+    #END TRY
+#END BALANCE()
+
+##################################################################################
+# FCN NAME: TRANSACTION
+# DESCRIPTION: Displays transaction history
+# INPUTS: transactions.txt file from computer
+# OUTPUTS: Transaction history header and transaction history
+# ALGORITHM:
+# DEFINE transaction
+#     PUT "\nTRANSACTION HISTORY OPTION" to screen 
+#     SET usernameToUser to CALL openFile
+#     TRY
+#         OPEN transactions.txt in read mode (newFile)
+#     EXCEPT FileNotFoundError
+#         PUT  "Failed to open INSERT file name for reading" to screen
+#     ELSE
+#         SET user to equal usernameToUser[username]
+#         #PRINT TRANSACTION HISTORY FOR USER IN SHELL
+#         PUT transaction header "\nFirst name, last name, checking,
+#           savings, date, type: " to screen
+#         FOR line in newFile
+#             SPLIT lines at commas (splitLine)
+# 
+#             SET number to equal zero
+#             SET temporaryWord to equal splitLine[number]
+#             IF temporaryWord is username
+#                 SET phrase to equal line minus last character
+#                 PUT transaction history line to screen (phrase)
+#         CLOSE new file
+# History:
+# 2021.24.02 Creation
+# 2021.25.02 Final
+##################################################################################
+
+def transaction():
+    print("\nTRANSACTION HISTORY OPTION")
+    usernameToUser = openFile()
+    try:
+        newFile = open('transactions.txt', 'r')
+    except FileNotFoundError:
+        print ("Failed to open %s for reading" % newFile)
+    else:
+        user = usernameToUser[username]
+        #PRINT TRANSACTION HISTORY FOR USER IN SHELL
+        print("\nFirst name, last name, checking, savings, date, type: ")
+        for line in newFile:
+            splitLine = line.split(",") 
+
+            number = 0
+            temporaryWord = splitLine[number]
+            if temporaryWord == username:
+                phrase = line[:-1]
+                print (phrase)
+        newFile.close()
+
+##################################################################################
+# Name: MAIN FUNCTION
+# Course: ICS4U
+# File: saint_emily_assign01.py
+# DESCRIPTION: Loops through banking program untill user exits
+# IMPORT: datetime
+# INPUT: Prompt user for menu choice (menu). All from user's keyboard.
+# OUTPUT: Main menu loop to screen
+# ALGORITHIM:
+# #SET VARIABLES
+# SET checking to equal zero
+# SET savings to equal zero
+# SET correctCust to equal zero
+# SET correctNumWith to equal zero
+# SET correctNumDep to equal zero
+# SET dateObject to equal string datetime.datetime.today split[zero]
+# 
+# #HEADER NO.1
+# PUT "NB: SET customer needs to be selected first \nonly at the begining
+#   inorder to proceed." to screen
+# PUT "\nWELCOME TO E-BANKTELLER" to screen
+# PUT "Date: INSERT dateObject" to screen
+# 
+# #MAIN MENU LOOP
+# SET run to equal True
+# WHILE run is equal to true
+#     #HEADER NO.2
+#     PUT "\n---- MAIN MENU ----\n" to screen
+#     PUT "1 | SET customer" to screen
+#     PUT "2 | DEPOSIT" to screen
+#     PUT "3 | WITHDRAW" to screen
+#     PUT "4 | TRANSFER" to screen
+#     PUT "5 | BALANCE" to screen
+#     PUT "6 | TRANSACTION HISTORY" to screen
+#     PUT "7 | EXIT\n" to screen
+# 
+#     #CHECK IF OPTION NUMBER IS VALID
+#     SET check to equal False
+#     WHILE not check
+#         PROMPT user for menu choice (menu)
+#         TRY
+#             SET menu to integer
+#         EXCEPT ValueError
+#             CALL numNotValid
+#             SET check to False
+#         ELSE
+#             IF menu is greater than zero and eight is greater than menu
+#                 SET check to equal True
+#             ELSE
+#                 CALL numNotValid
+#                 SET check to equal False
+#             #END IF
+#         #END TRY
+#     #END WHILE
+# 
+#     #OPTION LOOP
+#     IF menu is equal one
+#         SET correctCust to equal zero
+#         SET correctCust to CALL returnUser
+#         CALL setCust
+#         SET run to equal True
+#     ELIF menu is equal two
+#         IF correctCust
+#             CALL deposit(zero)
+#         SET run to equal True
+#         #END IF
+#     ELIF menu is equal three
+#         IF correctCust
+#             withdraw(zero)
+#         SET run to equal True
+#         #END IF
+#     ELIF menu is equal four
+#         IF correctCust
+#             CALL transfer
+#         SET run to equal True
+#         #END IF
+#     ELIF menu is equal five
+#         IF correctCust
+#             CALL balance
+#         SET run to equal True
+#         #END IF
+#     ELIF menu is equal six
+#         IF correctCust
+#             CALL transaction
+#         SET run to equal True
+#         #END IF
+#     ELIF menu is equal seven
+#         #EXIT PROGRAM
+#         PUT "\nYou have exited the program.\nThank you for banking
+#           with E-BankTeller" to screen
+#         BREAK ou of loop 
+#     #END IF
+# #END WHILE   
+# History:
+# 2021.24.02 Creation
+# 2021.25.02 Modified main loop
+# 2021.26.02 Transfer functon added and pseudocode
+# 2021.26.02 Final
+##################################################################################
+
+#### START OF MAIN ALGORITHM ####
+
+#SET VARIABLES
+checking = 0
+savings = 0
+correctCust = 0
+correctNumWith = 0
+correctNumDep = 0
+dateObject = str(datetime.datetime.today()).split()[0]
+
+#HEADER NO.1
+print("NB: SET customer needs to be selected first \nonly at the begining inorder to proceed.")
+print("\nWELCOME TO E-BANKTELLER")
+print("Date: %s" %dateObject)
+
+#MAIN MENU LOOP
+run = True
+while run:
+    #HEADER NO.2
+    print("\n---- MAIN MENU ----\n")
+    print("1 | SET customer")
+    print("2 | DEPOSIT")
+    print("3 | WITHDRAW")
+    print("4 | TRANSFER")
+    print("5 | BALANCE")
+    print("6 | TRANSACTION HISTORY")
+    print("7 | EXIT\n")
+
+    #CHECK IF OPTION NUMBER IS VALID
+    check = False
+    while not check:
+        menu = (input("Enter menu choice: "))
+        try:
+            menu = int(menu)
+        except ValueError:
+            numNotValid()
+            check = False
+        else:
+            if menu > 0 and 8 > menu:
+                check = True
+            else:
+                numNotValid()
+                check = False
+            #END IF
+        #END TRY
+    #END WHILE
+
+    #OPTION LOOP
+    if menu == 1:
+        correctCust = 0
+        correctCust = returnUser()
+        setCust()
+        run = True
+    elif menu == 2:
+        if correctCust:
+            deposit(0)
+        run = True
+        #END IF
+    elif menu == 3:
+        if correctCust:
+            withdraw(0)
+        run = True
+        #END IF
+    elif menu == 4:
+        if correctCust:
+            transfer()
+        run = True
+        #END IF
+    elif menu == 5:
+        if correctCust:
+            balance()
+        run = True
+        #END IF
+    elif menu == 6:
+        if correctCust:
+            transaction()
+        run = True
+        #END IF
+    elif menu == 7:
+        #EXIT PROGRAM
+        print("\nYou have exited the program.\nThank you for banking with E-BankTeller")
+        break
+    #END IF
+#END WHILE
+
+#### END OF MAIN ALGORITHM ####
