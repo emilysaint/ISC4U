@@ -1,0 +1,847 @@
+################################################################################
+# Name: Emily Saint
+# Course: ICS3U
+# File: saint_emily_summative.py
+# Description:
+# Create an invoice information output into new file.  
+# History:
+# 2019.12.29 Creation of file
+# 2019.12.31 Start of coding
+# 2019.12.31 Creation of both functions
+# 2020.01.06 Shell output layout
+# 2020.01.08 Output file layout
+# 2019.01.08 Final copy of both functions
+# 2020.01.09 Notes throughout code
+# 2020.01.21 Final copy
+################################################################################
+
+################################################################################
+# FCN NAME: shippingCalculations
+# DESCRIPTION: uses user's shipping method to calculate shipping cost.
+# INPUTS: User's prefered shipping method from main function.
+# OUTPUTS: none, but returns shippingCost.
+# ALGORITHM:
+#     IF shippingMethod is equal to PC
+#         SET shippingCost to equal 35
+#     ELIF shippingMethod is equal to XP
+#         SET shippingCost to equal 20
+#     ELIF shippingMethod is equal to RP
+#         SET shippingCost to equal 10
+#     ELSE:
+#         SET shippingCost to equal 0
+#     #ENDIF
+#     RETURN shippingCost
+# #END SHIPPINGCalculationS(SHIPPINGMETHOD)
+# 
+# History:
+# 2019.12.31 Creation
+# 2019.01.06 Slight changes to code
+# 2019.01.08 Final copy 
+################################################################################
+
+def shippingCalculations(shippingMethod):
+
+    #Uses the parameter shippingMethod to get user's shipping method from the
+    #   file to calculate the shipping cost for order. This function returns
+    #   shippingCost for later use in output.
+    
+    if shippingMethod == "PC": #PC shipping costs $35
+        shippingCost = 35
+    elif shippingMethod == "XP": #XP shipping costs $20
+        shippingCost = 20
+    elif shippingMethod == "RP": #RP shipping costs $10
+        shippingCost = 10
+    else:
+        shippingCost = 0
+    #ENDIF
+    
+    return shippingCost
+#END SHIPPINGCalculationS(SHIPPINGMETHOD)
+
+################################################################################
+# FCN NAME: taxCalculation
+# DESCRIPTION: uses user's province to calculate tax amount.
+# INPUTS: User's province from main function.
+# OUTPUTS: none, but returns totalWithTax, and taxAmount, and HSTAmount.
+# ALGORITHM:
+#     IF customerProvince is equal to BC
+#         SET HSTAmount to equal zero
+#         SET taxAmount to the product of totalWithoutTax multiplied by 0.07
+#     ELIF customerProvince is equal to AB
+#         SET HSTAmount to equal zero
+#         SET taxAmount to zero
+#     ELIF customerProvince is equal to SK
+#         SET HSTAmount to equal zero
+#         SET taxAmount to the product of totalWithoutTax multiplied by 0.05
+#     ELIF customerProvince is equal to MB
+#         SET HSTAmount to equal zero
+#         SET taxAmount to the product of totalWithoutTax multiplied by 0.07
+#     ELIF customerProvince is equal to ON
+#         SET HSTAmount to equal zero
+#         SET taxAmount to the product of totalWithoutTax multiplied by 0.13
+#     ELIF customerProvince is equal to QC
+#         SET HSTAmount to the product of totalWithoutTax multiplied by 5
+#         SET HSTAmount to totalWithoutTax
+#         SET taxAmount to the product of HSTAmount multiplied by 0.075
+#     ELIF customerProvince is equal to NB
+#         SET HSTAmount to equal zero
+#         SET taxAmount to the product of totalWithoutTax multiplied by 0.13
+#     ELIF customerProvince is equal to NS
+#         SET HSTAmount to equal zero
+#         SET taxAmount to the product of totalWithoutTax multiplied by 0.13
+#     ELIF customerProvince is equal to PE
+#         SET HSTAmount to the product of totalWithoutTax multiplied by 5
+#         SET HSTAmount to totalWithoutTax
+#         SET taxAmount to the product of HSTAmount multiplied by 0.1
+#     ELIF customerProvince is equal to NL
+#         SET HSTAmount to equal zero
+#         SET taxAmount to the product of totalWithoutTax multiplied by 0.13
+#     #ENDIF
+# 
+#     SET totalWithTax to the sum of totalWithoutTax, taxAmount, and HSTAmount
+#     RETURN totalWithTax, taxAmount, HSTAmount
+# #ENDOF TAXCalculation(TOTALWITHTAX, TAXAMOUNT, HSTAmount, TOTALWITHOUTTAX,
+#           CUSTOMERPROVINCE) 
+# History:
+# 2019.12.31 Creation
+# 2020.01.08 Addition to parameters
+# 2019.01.08 Final copy
+################################################################################
+
+def taxCalculation(totalWithTax, taxAmount, HSTAmount, totalWithoutTax, \
+                  customerProvince):
+    #Uses the parameter totalWithoutTax and customerProvince to calculate the
+    #   the amount of tax for oder. This function returns totalWithTax,
+    #   taxAmount, and HSTAmount to use for later use in output. 
+    
+    if customerProvince == "BC":
+        HSTAmount = 0
+        taxAmount = totalWithoutTax * 0.07
+    elif customerProvince == "AB":
+        HSTAmount = 0
+        taxAmount = 0
+    elif customerProvince == "SK":
+        HSTAmount = 0
+        taxAmount = totalWithoutTax * 0.05
+    elif customerProvince == "MB":
+        HSTAmount = 0
+        taxAmount = totalWithoutTax * 0.07
+    elif customerProvince == "ON":
+        HSTAmount = 0
+        taxAmount = totalWithoutTax * 0.13
+    elif customerProvince == "QC":
+        HSTAmount = totalWithoutTax * 0.05
+        totalWithoutTax += HSTAmount
+        taxAmount = totalWithoutTax * 0.075
+    elif customerProvince == "NB":
+        HSTAmount = 0
+        taxAmount = totalWithoutTax * 0.13
+    elif customerProvince == "NS":
+        HSTAmount = 0
+        taxAmount = totalWithoutTax * 0.13
+    elif customerProvince == "PE":
+        HSTAmount = totalWithoutTax * 0.05
+        totalWithoutTax += HSTAmount
+        taxAmount = totalWithoutTax * 0.1
+    elif customerProvince == "NL":
+        HSTAmount = 0
+        taxAmount = totalWithoutTax * 0.13
+    #ENDIF
+
+    totalWithTax = totalWithoutTax + taxAmount + HSTAmount
+    return totalWithTax, taxAmount, HSTAmount
+#ENDOF TAXCalculation(TOTALWITHTAX, TAXAMOUNT, HSTAmount,
+#           TOTALWITHOUTTAX, CUSTOMERPROVINCE)
+
+################################################################################
+# FCN NAME: taxCalculation
+# DESCRIPTION: uses user's province to calculate tax amount.
+# INPUTS: Reads invoice information form Level4InvoiceInformation.txt
+#         If user wants to continue - raw input from user's keyboard
+# OUTPUTS:
+#   #Invoice first header to shell only
+# 80 consecutive "="
+#                           EMILY'S MARVELOUS BOOKS. CORP
+#                                 
+#         INVOICES FOR STORE USE ONLY
+# 
+# To continue to next invoice press enter
+#
+# Invoice number (insert invoice number) below
+#
+#   #Invoices printed to both output file and shell
+# 80 consecutive "="
+# 
+#                           EMILY'S MARVELOUS BOOKS. CORP
+#                 900 Book Lane, Road to Nowhere, Iqaluit, N0T 4PP
+#                                 (123) 1234 - 12345
+# 
+#  Invoice Number:                                               Invoice Date:
+#  15 consecutive "-"                                           13 consecutive "-"
+# (insert invoice number)                                       (insert invoice date)
+# 
+# SOLD TO:      (insert customer name)
+#               (insert customer address)
+#               (insert customer city and province)
+#               (insert customer postal code)
+#               (insert shipping method)
+# 
+#         Item Description                   Quantity   Unit Price      Total
+#   32 consecutive "-", a space, 10 consecutive "-", a space, 15 consecutive, a space,
+#       10 consecutive "-", followed by "\n", string PUT to ouput file
+#         (insert item description) (insert quantity) (insert unit price) (insert total)   
+#         Followed by as many items they have 
+#                                                         Shipping: (insert shipping price)
+#                                                                    10 consecutive "-"
+#                                                         Subtotal: (insert subtotal)
+#                                                              PST: (insert tax amount)
+#                                                                    10 consecutive "="
+#                                                            Total: (insert total amount)
+# 80 consecutive "="
+#
+# "Thank you for your business!" 
+#
+# ALGORITHM:
+#   # VARIABLES #
+#   #Header 
+#   SET ACCOUNTNUMBER to equal zero
+#   SET CUSTOMERNAME to equal one
+#   SET CUSTOMERSTREETADDRESS to equal two
+#   SET CUSTOMERCITY to equal three
+#   SET CUSTOMERPROVINCE to equal four
+#   SET CUSTOMERPOSTALCODE to equal five
+#   SET INVOICEDATE to equal six
+#   SET INVOICENUMBER to equal seven
+#   SET SHIPPINGMETHOD to equal eight
+#   #Details 
+#   SET ITEMNUMBER to equal zero
+#   SET ITEMDESCRIPTION to equal one
+#   SET QUANTITYSOLD to equal two
+#   SET UNITPRICE to equal three
+#   #Main Function
+#   SET shippingCost to equal zero
+#   SET customerProvince to equal AB
+#   SET none to equal blank space
+#   SET totalWithoutTax to equal zero
+#   SET amountTotalList to equal blank list
+#   SET shippingMethod to equal zero
+#   SET taxAmount to equal zero
+#   SET totalWithTax to equal zero
+#   SET HSTAmount to equal zero
+#
+#   TRY
+#       #Open input file in read mode.
+#       NAME inputFileName as Level4InvoiceInformation.txt
+#       MAKE inputFile to OPEN inputFileName in read mode
+#    
+#       #Open output file in write mode.
+#       NAME outputFileName as Level4InvoiceInformation.OUTPUT.txt
+#       MAKE outputFile to OPEN outputFileName in write mode
+#   EXCEPT IOError, e
+#       "Could not open file %s to read: %s", string PUT to screen
+#               %(inputFileName, e)
+#   ELSE
+#       PRINT Blank line with three quotation marks
+#       80 consecutive "="
+# 
+#                           EMILY'S MARVELOUS BOOKS. CORP
+#                                 
+#         INVOICES FOR STORE USE ONLY
+# 
+#       CLOSE the three quotation marks, string PUT to screen
+#             
+#       #Read lines in inputFile
+#       FOR line in inputFile
+#
+#         #If loop for header lines in inputFile
+#         IF the line starts with an H
+#             SET numberOfAmounts to equal the number of items in
+#                       amountTotalList
+#             SET number to equal zero
+#             #Calculates total price of items from detail lines
+#             WHILE number is less than the number of items in the
+#                       list (numberOfAmounts)
+#                 SET amountOfItemInList amountTotalList[insert number]
+#                           and CHANGE it to a float value 
+#                 ADD amountOfItemInList to totalWithoutTax
+#                 ADD one to pervious number value
+#             #ENDWHILE
+#                 
+#             #function calling to caluate totalFinal with tax and shipping
+#             MAKE totalWithTax, taxAmount, HSTAmount equal to the return
+#                       values of taxCalculation(totalWithTax, taxAmount,
+#                       HSTAmount, totalWithoutTax, customerProvince)
+#             MAKE shippingCost equal to the return value of
+#                       shippingCalculations(shippingMethod)
+#             MAKE grandAmountTotal equal the sum of totalWithTax and
+#                       shippingCost
+#             
+#             #Skip output of totalFinal for first line
+#             IF grandAmountTotal is equal to zero
+#                 WRITE a blank line to output file
+#             #Printing layout of totalFinal for invoices in outputFile
+#             ELIF grandAmountTotal is greater than zero
+#                 WRITE a blank line to output file
+#                 MAKE string equal "Shipping:"
+#                 "%65s      %.2f\n" %(string, shippingCost) string PUT
+#                           to ouput file
+#                 "%79s\n" %(10 consecutive "-") string PUT to ouput file
+#                 MAKE string equal "Subtotal:"
+#                 "%65s      %.2f\n" %(string, totalWithoutTax) string
+#                           PUT to ouput file
+#                 MAKE string equal "GST:"
+#
+#                 IF customerProvince is equal to "PE"
+#                     "%65s      %s\n"  %(string, HSTAmount) string
+#                               PUT to ouput file
+#                 ELIF customerProvince is equal to "QC"
+#                     "%65s      %s\n"  %(string, HSTAmount) string
+#                           PUT to ouput file
+#                 #ENDIF
+#                 IF customerProvince is equal to "ON" or
+#                           customerProvince is equal to "NB" or
+#                           customerProvince is equal to "NS" or
+#                           customerProvince is equal to "NL"
+#                     string to equal "HST:"
+#                 IF customerProvince is equal to "QC"
+#                     string is equal to "QST:"
+#                 ELSE
+#                     string is equal to "PST:"
+#                 #ENDIF
+#                 "%65s      %.2f\n" %(string, taxAmount) string PUT
+#                           to ouput file
+#                 "%79s\n" %(10 consecutive "=") string PUT to output file
+#                 MAKE string equal "Total:"
+#                 "%65s      %.2f\n" %(string, grandAmountTotal) string
+#                           PUT to ouput file
+#             #ENDIF
+#             Blank line PUT to outputFile
+#             "Thank you for your business!\None" string PUT to ouput file
+#             Blank line PUT to outputFile
+#                 
+#             #Reset variables for following invoice
+#             SET amountTotalList to equal a blank list
+#             SET totalWithoutTax to equal zero
+#             SET grandAmountTotal to equal zero
+#             SET string to equal zero
+#             SET taxAmount to equal zero
+#             SET totalWithTax to equal zero
+#             SET nextLine to equal next line in inputFile
+#             SPLIT nextLine by colons, and SET it to equal splitLine
+#             
+#             #Printing header for invoice in outputFile
+#             80 consecutive "=" followed by "\n", string PUT to ouput file
+#             WRITE a blank line to output file
+#             "                          EMILY'S MARVELOUS BOOKS. CORP\n"
+#                       string PUT to ouput file
+#             "                900 Book Lane, Road to Nowhere, Iqaluit,
+#                       N0T 4PP\n"
+#                       string PUT to ouput file
+#             "                                (123) 1234 - 12345\n"
+#                       string PUT to ouput file
+#             WRITE a blank line to output file
+# 
+#             #Set constant variables for header lines
+#             SET accountNumber to equal splitLine[ACCOUNTNUMBER,
+#                       which is a constant variable]
+#             SET customerName to equal splitLine[CUSTOMERNAME,
+#                       which is a constant variable]
+#             SET customerStreetAddress to equal
+#                       splitLine[CUSTOMERSTREETADDRESS, which is a
+#                       constant variable]
+#             SET customerCity to equal splitLine[CUSTOMERCITY, which is
+#                       a constant variable]
+#             SET customerProvince to equal splitLine[CUSTOMERPROVINCE,
+#                       which is a constant variable]
+#             SET customerPostalCode to equal splitLine[CUSTOMERPOSTALCODE,
+#                       which is a constant variable]
+#             SET invoiceDate to equal splitLine[INVOICEDATE, which is a
+#                       constant variable]
+#             SET invoiceNumber to equal splitLine[INVOICENUMBER, which is
+#                       a constant variable]
+# 
+#             #Get rid of \r\n on shipping method line
+#             SET shippingMethod to equal splitLine[SHIPPINGMETHOD,
+#                       which is a constant variable]
+#             STRIP shippingMethod to get rid of \r\n at the end of it's line,
+#                       and SET it to equal shippingMethod
+# 
+#             #Printing user's information for invoice in outputFile
+#             " Invoice Number:
+#                       Invoice Date:\n", string PUT to ouput file
+#             " ---------------
+#                       -------------\n", string PUT to ouput file
+#             "     %s
+#                       %s\n" %(invoiceNumber, invoiceDate) string
+#                       PUT to ouput file
+#             WRITE a blank line to output file
+#             "SOLD TO:      %s\n" %customerName, string PUT to ouput file
+#             "%-14s%s\n" %(none, customerStreetAddress) string PUT
+#                       to ouput file
+#             o"%-14s%s, %s\n" %(none, customerCity, customerProvince)
+#                       string PUT to ouput file
+#             "%-14s%s\n" %(none, customerPostalCode) string PUT to ouput file
+#             "%-14s%s\n" %(none, shippingMethod)string PUT to ouput file
+#             WRITE a blank line to output file
+#             "        %-34s %-10s %-15s %-15s" %("Item Description",
+#                       "Quantity", "Unit Price", "Total\n") string PUT
+#                       to ouput file
+#             32 consecutive "-", a space, 10 consecutive "-", a space,
+#                       15 consecutive, a space, 10 consecutive "-",
+#                       followed by "\n", string PUT to ouput file
+#         #ENDIF
+#
+#         #IF LOOP FOR DETAIL LINES IN INPUTFILE
+#         IF the line starts with an "D"
+#             SET nextLine to equal next line in inputFile
+#             SPLIT nextLine by colons, and SET it to equal splitLine
+#
+#             #Set constant variables for detail lines
+#             SET itemNumber to equal splitLine[ITEMNUMBER, which is a
+#                           constant variable]
+#             SET itemDescription to equal splitLine[ITEMDESCRIPTION,
+#                           which is a constant variable]
+#             SET quantitySold to equal splitLine[QUANTITYSOLD,
+#                           which is a constant variable], and CHANGE it
+#                           to an interger value
+#
+#             #Get rid of \r\n on unit price line
+#             SET unitPrice to equal splitLine[UNITPRICE, which is a
+#                       constant variable]
+#             STRIP unitPrice to get rid of \r\n at the end of its line,
+#                       and SET it to equal unitPrice
+#             SET unitPrice to equal unitPrice, and CHANGE it to an interger
+#                       value
+#
+#             #Calulate item price total without tax and shipping
+#             CALCULATE itemPriceTotal to equal the product of quantitySold
+#                       mulitiplied by unitPrice
+#             CHANGE itemPriceTotal to a string and APPEND it to amountTotalList
+# 
+#             #Printing sold item details for invoice in outputFile
+#             "        %-38s %-9d %-13.2f %-10.2f\n" %(itemDescription,
+#                       quantitySold, unitPrice, itemPriceTotal) string PUT
+#                       to ouput file
+#         #ENDIF
+# 
+#     #CALCULATES TOTAL PRICE OF ITEMS FROM LAST INVOICE IN IMPUTFILE
+#     SET numberOfAmounts to equal the amount of items in the list
+#               amountTotalList
+#     SET number to equal zero
+#     WHILE number is les than the number of items in the list (numberOfAmounts)
+#         MAKE amountOfItemInList to equal amountTotalList[number] and
+#                   CHANGE it to a float value
+#         ADD amountOfItemInList to totalWithoutTax
+#         ADD one to the previous number
+#     #ENDWHILE
+#
+#     #function calling to caluate totalFinal with tax and shipping for
+#       last invoice
+#     MAKE totalWithTax, taxAmount, HSTAmount equal to the return values of
+#               taxCalculation(totalWithTax, taxAmount, HSTAmount,
+#               totalWithoutTax, customerProvince)
+#     MAKE shippingCost equal to the return value of
+#               shippingCalculations(shippingMethod)
+#     MAKE grandAmountTotal equal the sum of totalWithTax and shippingCost
+#
+#     #Printing layout of totalFinal for final invoice
+#     WRITE a blank line to output file
+#     MAKE string equal "Shipping:"
+#     "%65s      %.2f\n" %(string, shippingCost) string PUT to ouput file
+#     "%79s\n" %(10 consecutive "-") string PUT to ouput file
+#     MAKE string equal "Subtotal:"
+#     "%65s      %.2f\n" %(string, totalWithoutTax) string PUT to ouput file
+#     MAKE string equal "GST:"
+#     IF customerProvince to equal "PE"
+#         "%65s      %s\n"  %(string, HSTAmount) string PUT to ouput file
+#     ELIF customerProvince to equal "QC"
+#         "%65s      %s\n"  %(string, HSTAmount) string PUT to ouput file
+#     #ENDIF
+#     IF customerProvince is equal to "ON" or customerProvince is equal to "NB" or customerProvince is equal to "NS" or customerProvince is equal to "NL"
+#         string to equal "HST:"
+#     IF customerProvince is equal to "QC"
+#         string is equal to "QST:"
+#     ELSE
+#         string is equal to "PST:"
+#     #ENDIF
+#     "%65s      %.2f\n" %(string, taxAmount) string PUT to ouput file
+#     "%79s\n" %(10 consecutive "=") string PUT to ouput file
+#     MAKE string equal "Total:"
+#     o"%65s      %.2f\n" %(string, grandAmountTotal) string PUT to ouput file
+#     blank line PUT to ouput file
+#     "Thank you for your business!\n" string PUT to ouput file
+#     blank line PUT to ouput file
+#
+#     #CLOSE INPUTFILE
+#     CLOSE inputFile
+#     CLOSE outputFile
+#
+#     #READ OUTPUTFILE TO SHELL WITH FOR LOOP
+#     SET number to equal one
+#     SET outputFile to OPEN outputFileName in read mode
+#     FOR line in outputFile
+#         IF line is equal to 80 consecutive "=" followed by a "\n"
+#             MAKE enterButton use raw input to PROMPT user for if they would
+#                       want to contine and print next invoice
+#                       by pressing the enter button
+#             IF enterButton is equal to a blank space, which indicates
+#                           enter button has been pressed
+#                 blank line PUT to screen
+#                 "Invoice number %d below" %number, string PUT to screen
+#                 ADD one to number
+#             #ENDIF
+#         #ENDIF
+#         line without spaces inbetween PUT to screen
+#     #ENDFOR
+#  
+#     #CLOSE OUTPUTFILE
+#     CLOSE outputFile
+# #ENDOFTRY
+# 
+# History:
+# 2019.12.31 Creation
+# 2019.12.30 Addition of main function FOR loop.
+# 2020.01.06 Addition of IF statement for last line and amount total
+#               change to output layout. Addition of main function variables
+# 2020.01.06 Shell output layout
+# 2020.01.07 Addition of while loops in main function, and changes to
+#               decimal placed for outputs. Additon of pseudocode of
+#               shippingCalculations and taxCalculation functions. Addition 
+#               output to an output file and reading it to shell.
+# 2020.01.08 Output file layout
+# 2020.01.09 Notes throughout code
+# 2020.01.09 Changes to main function pseudocode
+# 2020.01.13 Changes to user "continue" in shell
+# 2020.01.17 Updates to output
+# 2020.01.21 Pseudocode
+# 2020.01.21 Final copy
+################################################################################
+
+# VAIABLES #
+#Header 
+ACCOUNTNUMBER = 0
+CUSTOMERNAME = 1
+CUSTOMERSTREETADDRESS = 2
+CUSTOMERCITY = 3
+CUSTOMERPROVINCE = 4
+CUSTOMERPOSTALCODE = 5
+INVOICEDATE = 6
+INVOICENUMBER = 7
+SHIPPINGMETHOD = 8 
+
+#Details 
+ITEMNUMBER = 0
+ITEMDESCRIPTION = 1
+QUANTITYSOLD = 2
+UNITPRICE = 3
+
+#Main Function
+shippingCost = 0
+customerProvince = 0
+none = " "
+totalWithoutTax = 0
+amountTotalList = []
+shippingMethod = 0
+taxAmount = 0
+totalWithTax = 0
+HSTAmount = 0
+
+#==============================================================================#  
+
+try:
+    #Open input file in read mode.
+    inputFileName = "Level4InvoiceInformation.txt"
+    inputFile = open(inputFileName, 'r')
+    
+    #Name and create output file. Then open output file in write mode.
+    outputFileName = "Level4InvoiceInformation.OUTPUT.txt"
+    outputFile = open(outputFileName, 'w')
+
+#==============================================================================#  
+    
+except IOError, e:
+    #Prints IOError if file cannot be open to read. 
+    print "Could not open file %s to read: %s" %(inputFileName, e)
+
+#==============================================================================#    
+    
+else:
+
+    #ELSE controls what is getting witten in the output file, then it prints it
+    #   to the shell.
+    
+    #Header for shell
+    print """
+================================================================================
+
+                          EMILY'S MARVELOUS BOOKS. CORP
+                                
+        INVOICES FOR STORE USE ONLY
+
+"""
+    
+    #==========================================================================#
+        
+    #Read lines in inputFile
+    for line in inputFile:
+
+    #----------------------------------------------------------------------#
+        #If loop for header lines in inputFile
+        if line.startswith("H"):
+        #------------------------------------------------------------------# 
+            numberOfAmounts = len(amountTotalList)
+            number = 0
+            #Calculates total price of items from prevous detail lines,
+            #   so that later on we are able to calculate total amount.
+            while number < numberOfAmounts:
+                amountOfItemInList = float(amountTotalList[number])
+                totalWithoutTax += amountOfItemInList
+                number += 1
+            #ENDWHILE
+                
+            #--------------------------------------------------------------#
+                
+            #function calling to caluate totalFinal with tax and shipping
+            totalWithTax, taxAmount, HSTAmount = taxCalculation(totalWithTax, \
+                                                               taxAmount, \
+                                                               HSTAmount, \
+                                                               totalWithoutTax,\
+                                                               customerProvince)
+            shippingCost = shippingCalculations(shippingMethod)
+            #Calculation of the final ammount with tax and shipping
+            grandAmountTotal = totalWithTax + shippingCost
+            
+            #--------------------------------------------------------------#
+            
+            #Skip output of totalFinal for first line
+            if grandAmountTotal == 0:
+                outputFile.write("\n")
+            #Printing layout of totalFinal for invoices in outputFile
+            elif grandAmountTotal > 0:
+                outputFile.write("\n") 
+                #Outputs shipping cost for invoice in output file
+                string = "Shipping:"
+                outputFile.write("%65s      %.2f\n" %(string, shippingCost))
+                outputFile.write("%79s\n" %("----------"))
+                #Outputs subtotal for invoicein output file
+                string = "Subtotal:"
+                outputFile.write("%65s      %.2f\n" %(string, totalWithoutTax))
+                #Outputs tax (GST) cost for invoice in output file if
+                #   province is PE or QC
+                string = "GST:"
+                if customerProvince == "PE":
+                    outputFile.write("%65s      %s\n"  %(string, HSTAmount))
+                elif customerProvince == "QC":
+                    outputFile.write("%65s      %s\n"  %(string, HSTAmount))
+                #ENDIF
+                #Outputs tax cost for invoice in output file
+                if customerProvince == "ON" or customerProvince == "NB" or customerProvince == "NS" or customerProvince == "NL":
+                    string = "HST:"
+                if customerProvince == "QC":
+                    string = "QST:"
+                else:
+                    string = "PST:"
+                #ENDIF
+                outputFile.write("%65s      %.2f\n" %(string, taxAmount))
+                outputFile.write("%79s\n" %("=========="))
+                #Outputs total cost for invoice in output file
+                string = "Total:"
+                outputFile.write("%65s      %.2f\n" %(string, grandAmountTotal))
+            #ENDIF
+
+            outputFile.write("\n")
+            outputFile.write("Thank you for your business!\n")
+            outputFile.write("\n")
+                
+            #--------------------------------------------------------------#
+                
+            #Reset variables for following invoice
+            amountTotalList = []
+            totalWithoutTax = 0
+            grandAmountTotal = 0
+            string = 0
+            taxAmount = 0
+            totalWithTax = 0
+            #Read next line in input file and split it with colons
+            nextLine = inputFile.next()
+            splitLine = nextLine.split(':')
+            
+            #--------------------------------------------------------------#
+            
+            #Printing header for invoice in outputFile
+            outputFile.write("================================================================================\n")
+            outputFile.write("\n")
+            outputFile.write("                          EMILY'S MARVELOUS BOOKS. CORP\n")
+            outputFile.write("                900 Book Lane, Road to Nowhere, Iqaluit, N0T 4PP\n")
+            outputFile.write("                                (123) 1234 - 12345\n")
+            outputFile.write("\n")
+
+            #--------------------------------------------------------------# 
+
+            #Set constant variables for header lines
+            accountNumber = splitLine[ACCOUNTNUMBER]
+            customerName = splitLine[CUSTOMERNAME]
+            customerStreetAddress = splitLine[CUSTOMERSTREETADDRESS]
+            customerCity = splitLine[CUSTOMERCITY]
+            customerProvince = splitLine[CUSTOMERPROVINCE]
+            customerPostalCode = splitLine[CUSTOMERPOSTALCODE]
+            invoiceDate = splitLine[INVOICEDATE]
+            invoiceNumber = splitLine[INVOICENUMBER]
+
+            #--------------------------------------------------------------# 
+
+            #Get rid of \r\n on shipping method line
+            shippingMethod = splitLine[SHIPPINGMETHOD]
+            shippingMethod = shippingMethod.rstrip()
+
+            #--------------------------------------------------------------# 
+
+            #Printing user's information for invoice in outputFile
+            outputFile.write(" Invoice Number:                                               Invoice Date:\n")
+            outputFile.write(" ---------------                                               -------------\n")
+            outputFile.write("     %s                                                      %s\n" %(invoiceNumber, invoiceDate))
+            outputFile.write("\n")
+            outputFile.write("SOLD TO:      %s\n" %customerName)
+            outputFile.write("%-14s%s\n" %(none, customerStreetAddress))
+            outputFile.write("%-14s%s, %s\n" %(none, customerCity, \
+                                               customerProvince))
+            outputFile.write("%-14s%s\n" %(none, customerPostalCode))
+            outputFile.write("%-14s%s\n" %(none, shippingMethod))
+            outputFile.write("\n")
+            outputFile.write(("        %-34s %-10s %-15s %-15s" %("Item Description", "Quantity", "Unit Price", "Total\n")))
+            outputFile.write("-------------------------------- ---------- --------------- ----------\n")
+        #ENDIF
+
+    #======================================================================#
+            
+        #IF LOOP FOR DETAIL LINES IN INPUTFILE
+        if line.startswith("D"):
+            #Read next line in input file and split it with colons
+            nextLine = inputFile.next()
+            splitLine = nextLine.split(':')
+
+            #--------------------------------------------------------------# 
+        
+            #Set constant variables for detail lines
+            itemNumber = splitLine[ITEMNUMBER]
+            itemDescription = splitLine[ITEMDESCRIPTION]
+            #Change to integer value
+            quantitySold = int(splitLine[QUANTITYSOLD])  
+            
+            #--------------------------------------------------------------# 
+            
+            #Get rid of \r\n on unit price line
+            unitPrice = splitLine[UNITPRICE]
+            unitPrice = unitPrice.rstrip()
+            unitPrice = float(unitPrice) #Change to float value 
+            
+            #--------------------------------------------------------------# 
+            
+            #Calulate item price total without tax and shipping
+            #Calculation of itemPriceTotal
+            itemPriceTotal = quantitySold * unitPrice 
+            #Change to string and append to itemPriceTotal list
+            amountTotalList.append(str(itemPriceTotal)) 
+
+            #Printing sold item details for invoice in outputFile
+            outputFile.write(("        %-38s %-9d %-13.2f %-10.2f\n" %
+                   (itemDescription, quantitySold, unitPrice, itemPriceTotal)))
+        #ENDIF
+            
+    #==========================================================================#
+
+    #CALCULATES TOTAL PRICE OF ITEMS FROM LAST INVOICE IN IMPUTFILE
+    numberOfAmounts = len(amountTotalList)
+    number = 0
+    while number < numberOfAmounts:
+        #Change to float value
+        amountOfItemInList = float(amountTotalList[number])
+        #Calculate totalWithoutTax
+        totalWithoutTax += amountOfItemInList 
+        number += 1
+    #ENDWHILE
+
+    #----------------------------------------------------------------------# 
+        
+    #function calling to caluate totalFinal with tax and
+    #   shipping for last invoice
+    totalWithTax, taxAmount, HSTAmount = taxCalculation(totalWithTax, \
+                                                       taxAmount, HSTAmount,\
+                                                       totalWithoutTax, \
+                                                       customerProvince)
+    shippingCost = shippingCalculations(shippingMethod)
+    grandAmountTotal = totalWithTax + shippingCost
+
+    #----------------------------------------------------------------------#
+    
+    #Printing layout of totalFinal for final invoice
+    outputFile.write("\n")
+    #Outputs shipping cost for invoice in output file
+    string = "Shipping:"
+    outputFile.write("%65s      %.2f\n" %(string, shippingCost))
+    outputFile.write("%79s\n" %("----------"))
+    #Outputs subtotal for invoice in output file
+    string = "Subtotal:"
+    outputFile.write("%65s      %.2f\n" %(string, totalWithoutTax))
+
+    #Outputs tax (GST) if province is PE or QC for invoice in output file
+    string = "GST:"
+    if customerProvince == "PE":
+        outputFile.write("%65s      %s\n"  %(string, HSTAmount))
+    elif customerProvince == "QC":
+        outputFile.write("%65s      %s\n"  %(string, HSTAmount))
+    #ENDIF
+        
+    #Outputs tax cost for invoice in output file
+    if customerProvince == "ON" or customerProvince == "NB" or customerProvince == "NS" or customerProvince == "NL":
+        string = "HST:"
+    if customerProvince == "QC":
+        string = "QST:"
+    else:
+        string = "PST:"
+    #ENDIF
+    outputFile.write("%65s      %.2f\n" %(string, taxAmount))
+    outputFile.write("%79s\n" %("=========="))
+    #Outputs total cost for invoice in output file
+    string = "Total:"
+    outputFile.write("%65s      %.2f\n" %(string, grandAmountTotal))
+
+    outputFile.write("\n")
+    outputFile.write("Thank you for your business!\n")
+    outputFile.write("\n")
+
+    #======================================================================#
+
+    #CLOSE INPUTFILE
+    inputFile.close()
+    outputFile.close()
+    
+    #----------------------------------------------------------------------# 
+
+    #READ OUTPUTFILE TO SHELL WITH FOR LOOP
+    number = 1
+    #Open outputFile in read mode to read to shell when user presses enter
+    outputFile = open(outputFileName, 'r')
+    for line in outputFile:
+        if line == "================================================================================\n":
+            #Prompt user if they would like to continue printing invoices
+            #   to shell
+            enterButton = raw_input("To continue to next invoice press enter")
+            if enterButton == "":
+                print ""
+                #Prints invoice number
+                print "Invoice number %d below" %number
+                number += 1
+            #ENDIF
+        #ENDIF
+        #Prints invoice to shell
+        print line,
+    #ENDFOR
+
+    #----------------------------------------------------------------------# 
+        
+    #CLOSE OUTPUTFILE
+    outputFile.close()
+
+    #==========================================================================#
+#ENDOFTRY
