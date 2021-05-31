@@ -1,0 +1,788 @@
+################################################################################
+# Name: Emily Saint
+# Course: ICS4U
+# File: saint_emily_Assign02.py
+# Description: Using Fraction class to write a program that accepts lines of
+#   input from a text file called ICS4U_assign02_input.txt representing
+#   arithmetic operations to be performed on fractions and produces the result
+#   in shell and an output file, saint_emily_assign02_errs.txt
+# IMPORT: datetime
+# History:
+# 2021.11.03 CREATION
+# 2021.11.03 open file, class, rough out put of for line in file loop
+# 2021.12.03 all operation sub classes, save to file method, gcf and simplify
+# 2021.13.03 error message method, column formatting in openfile and fraction
+#   subclasses, print error method, and display simplifyed print lines
+#   subclasses and methods created. Start of notes and pseudocode. 
+# 2021.14.03 Header modification
+# 2021.14.03 FINAL
+###############################################################################
+
+import datetime
+
+###############################################################################
+# CLASS NAME: FRACTION
+# DESCRIPTION: Constructs fraction object and gets result
+# HISTORY:
+# HISTORY:
+# 2021.12.03 CREATION
+# 2021.12.03 creation of the __init__ subclass
+# 2021.12.03 creation of the __eq__ subclass
+# 2021.12.03 creation of the __ne__ subclass
+# 2021.12.03 creation of the __str__ subclass
+# 2021.12.03 creation of the equally simplified subclass
+# 2021.12.03 creation of the addition subclass
+# 2021.12.03 creation of the difference subclass
+# 2021.12.03 creation of the product subclass
+# 2021.12.03 creation of the divide subclass
+# 2021.12.03 creation of the print answers ubclass
+# 2021.12.03 creation of the simplify subclass
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+class Fraction():
+
+###############################################################################
+# FCN NAME: __init__
+# DESCRIPTION: Initializes the fields for a fraction object.
+# INPUTS:
+#   self - the fraction object
+#   num - the fraction numerator, passed as an argument, default 0.0
+#   deno - the fraction denominator, passed as an argument, default 0.0
+#   operation - the fraction operation, passed as an argument, default 0.0
+# OUTPUTS: None
+# ALGORITHM:
+# DEFINE __init__
+#   SET self.__num to num
+#   SET self.__deno to deno
+# #END __INIT__()
+# HISTORY:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+    # CONSTRUCTS FRACTION OBJECT
+    # fraction, self
+    def __init__(self, num=0, deno=0, operation=0):
+        self.__num = num
+        self.__deno = deno
+    #END __INIT__()
+
+###############################################################################
+# FCN NAME: __eq__
+# DESCRIPTION: Initializes the fields for a equality subclass.
+# INPUTS:
+#   self - the first fraction object
+#   other - the second fraction object
+# OUTPUTS: returns numer1 to equal numer2
+# ALGORITHM:
+# DEFINE __eq__
+#   SET numer1 to equal the absolute value of self.__num multiplied
+#       by other.__deno
+#   SET numer2 to equal the absolute value of other.__num multiplied
+#       by self.__deno
+#   RETURN numer1 to equal numer2
+# #END __EQ__()
+# HISTORY:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+    # EQUALITY SUBCLASS
+    # Take absolute value of numerator multiplied by denominator
+    def __eq__(self, other):
+        numer1 = abs(self.__num * other.__deno)
+        numer2 = abs(other.__num * self.__deno)
+        return numer1 == numer2
+    #END __EQ__()
+
+###############################################################################
+# FCN NAME: __ne__
+# DESCRIPTION: Initializes the fields for a inequality subclass.
+# INPUTS:
+#   self - the first fraction object
+#   other - the second fraction object
+# OUTPUTS: returns not equals
+# ALGORITHM:
+# DEFINE __ne__
+#   RETURN the oposite (not) of self.__eq__(other)
+# #END __NE__()
+# HISTORY:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+    # DOESN'T EQUAL SUBCLASS
+    def __ne__(self, other):
+        return not (self.__eq__(other))
+    #END __NE__()
+
+###############################################################################
+# FCN NAME: __str__
+# DESCRIPTION: Initializes the fields for a string format subclass
+# INPUTS: self - the first fraction object
+# OUTPUTS: returns self fraction in sting form
+# ALGORITHM:
+# DEFINE __str__
+#   RETURN the string of self.__num, "/", and the str of self.__deno
+# #END __STR__()
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+    # FRACTION IN STRING FORM
+    # returns this fraction, self
+    def __str__(self):
+        return (str(self.__num) + "/" + str(self.__deno))
+    #END __STR__()
+
+###############################################################################
+# FCN NAME: equally simplified
+# DESCRIPTION: returns numerator and denominator of F1 or F2 with
+#   result if they are equal
+# INPUTS:
+#   self - the first fraction object
+#   other - the second fraction object
+# OUTPUTS: returns simplifed fraction
+# ALGORITHM:
+# DEFINE qually_simplified
+#   RETURN self.__num to equal other.__num and self.__deno to equal other.__deno
+# #END EQUALLY_SIMPLIFIED
+# HISTORY:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+    # CHECK IF F1 and F2 ARE EQUAL
+    # fraction, self
+    def equally_simplified(self, other):
+        return self.__num == other.__num and self.__deno == other.__deno
+    #END EQUALLY_SIMPLIFIED
+
+###############################################################################
+# FCN NAME: addition 
+# DESCRIPTION: adds F1 and F2 and returns result
+# INPUTS:
+#   self - the first fraction object
+#   other - the second fraction object
+# OUTPUTS: returns result of addition
+# ALGORITHM:
+# DEFINE addition
+#   SET result to create new Fraction instance
+#   SET result.__num to equal the sum of self.__num multipled by
+#       other.__deno and other.__num multipled by self.__deno
+#   SET result.__deno to equal self.__deno multipled by other.__deno
+#   RETURN result
+# #END ADDITION()
+# HISTORY:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+    # ADDITION OF F1 AND F2
+    # multiply two fractions, return and reference to the (new) result
+    def addition(self, other):
+        # create new Fraction instance
+        result = Fraction()
+        result.__num = (self.__num * other.__deno) + (other.__num * self.__deno)
+        result.__deno = (self.__deno * other.__deno)
+        return result
+    #END ADDITION()
+
+###############################################################################
+# FCN NAME: difference 
+# DESCRIPTION: subtracts F1 and F2 and returns result
+# INPUTS:
+#   self - the first fraction object
+#   other - the second fraction object
+# OUTPUTS: returns result of subtraction
+# ALGORITHM:
+# DEFINE difference
+#   SET result to create new Fraction instance
+#   SET result.__num to equal the difference of self.__num multipled by
+#       other.__deno and other.__num multipled by self.__deno
+#   SET result.__deno to equal self.__deno multipled by other.__deno
+#   RETURN result
+# #END DIFFERENCE()
+# HISTORY:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+    # DIFFERENCE OF F1 AND F2
+    def difference(self, other):
+        # create new Fraction instance
+        result = Fraction()
+        result.__num = (self.__num * other.__deno) - (other.__num * self.__deno)
+        result.__deno = (self.__deno * other.__deno)
+        return result
+    #END DIFFERENCE()
+
+###############################################################################
+# FCN NAME: product 
+# DESCRIPTION: multiplies F1 and F2 and returns result
+# INPUTS:
+#   self - the first fraction object
+#   other - the second fraction object
+# OUTPUTS: returns result of multiplication
+# ALGORITHM:
+# DEFINE product
+#   SET result to create new Fraction instance
+#   SET result.__num to equal the product of self.__num multipled
+#       by other.__num
+#   SET result.__deno to equal the product of other.__deno multipled
+#       by self.__deno
+#   RETURN result
+# #END PRODUCT()
+# HISTORY:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+    # PRODUCT OF F1 AND F2
+    def product(self, other) :
+        # create new Fraction instance
+        result = Fraction()
+        result.__num = (self.__num * other.__num)
+        result.__deno = (other.__deno * self.__deno)
+        return result
+    #END PRODUCT()
+
+###############################################################################
+# FCN NAME: divide 
+# DESCRIPTION: divides F1 and F2 and returns result
+# INPUTS:
+#   self - the first fraction object
+#   other - the second fraction object
+# OUTPUTS: returns result of division
+# ALGORITHM:
+# DEFINE divide
+#   SET result to create new Fraction instance
+#   SET result.__num to equal the product of self.__num multipled
+#       by other.__deno
+#   SET result.__deno to equal the product of self.__deno multipled
+#       by  other.__num
+#   RETURN result
+# #END DIVIDE()
+# HISTORY:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+    # QUOTIENT OF F1 AND F2
+    def divide(self, other) :
+        # create new Fraction instance
+        result = Fraction()
+        result.__num = (self.__num * other.__deno)
+        result.__deno = (self.__deno * other.__num)
+        return result
+    #END DIVIDE()
+
+###############################################################################
+# FCN NAME: print answer
+# DESCRIPTION: displays fraction to screen in string form to screen
+# INPUTS: self - the first fraction object
+# OUTPUTS: fraction in string form to shell
+# ALGORITHM:
+# DEFINE _print_answer
+#   str_fraction = str(self.__num) + '/' + str(self.__deno)
+#   MULTIPLY a space by twenty minus the length of the str_fraction and end
+#           with space then PUT to screen
+# #END _PRINT_ANSWER()
+# HISTORY:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+    # PRINT FRACTION TO SCREEN
+    # displays fraction to screen in string form, self
+    def _print_answer(self):
+        str_fraction = str(self.__num) + '/' + str(self.__deno)
+        print(str_fraction + ' ' * (20 - len(str_fraction)), end="")
+    #END _PRINT_ANSWER()
+
+###############################################################################
+# FCN NAME: simplify
+# DESCRIPTION: returns simplified fraction
+# INPUTS: self - the first fraction object
+# OUTPUTS: returns fraction method
+# ALGORITHM:
+# DEFINE simplify
+#   SET gcd to CALL calculate_gcd(self.__num, self.__deno)
+#   SET new_num to equal the qotent of self.__num divided by the gcd, and
+#       KEEP no decimals
+#   SET new_deno to equal the qotent ofself.__deno  divided by the gcd, and
+#       KEEP no decimals
+#   RETURN Fraction(new_num, new_deno)
+# #END SIMPLIFY()
+# HISTORY:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+    # SIMPLIFIES FRACTION
+    # returns this fraction, simplified
+    def simplify(self):
+        gcd = calculate_gcd(self.__num, self.__deno)
+        new_num = self.__num // gcd
+        new_deno = self.__deno // gcd
+        return Fraction(new_num, new_deno)
+    #END SIMPLIFY()
+    
+#END CLASS FRACTION()
+
+###############################################################################
+# FCN NAME: RESULT DECIMAL
+# DESCRIPTION: returns decimal of fraction, self
+# INPUTS:
+#   self - the first fraction object
+#   other - the second fraction object
+# OUTPUTS: returns result in decimals
+# ALGORITHM:
+# return decimal of fraction, self
+# DEFINE resultDecimal
+#     SET result to equal the quotien in float value of the numerator divided
+#       by the denomiator of the result fraction 
+#     return result
+# #END RESULTDECIMAL()
+# History:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+# FRACTION IN DECIMAL FORM
+# return decimal of fraction, self
+def resultDecimal(self, other):
+    result = float(result.__num / result.__deno)
+    return result
+#END RESULTDECIMAL()
+
+###############################################################################
+# FCN NAME: PRINT ERROR
+# DESCRIPTION: Displays error message to shell with correct formatting
+# INPUTS: errorMsg and line
+# OUTPUTS: error message to shell with formatting
+# ALGORITHM:
+# DEFINE print_error:
+#     IF errorMsg is equal to "ERROR: DENOMINATOR is ZERO in result expression.
+#       Answer is UNDEFINED."
+#         MULTIPLY a space by ten minus the length of the line and end with
+#           space then PUT to screen
+#         PUT to errorMsg to screen and end with space
+#     ELSE
+#         MULTIPLY a space by twenty minus the length of the line and end
+#           with space then PUT to screen
+#         PUT to errorMsg to screen
+#     #END IF
+# #END PRINT_ERROR()
+# History:
+# 2021.13.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+# PRINTS ERROR MESSAGE
+# displays error message to shell with correct formatting
+def print_error(errorMsg, line):
+    if errorMsg == ("ERROR: DENOMINATOR is ZERO in result expression. Answer is UNDEFINED."):
+        print(' ' * (10 - len(line)), end='')
+        print (errorMsg, end='')
+    else:
+        print(' ' * (20 - len(line)), end='')
+        print (errorMsg)
+    #END IF
+#END PRINT_ERROR()
+
+##################################################################################
+# FCN NAME: SAVE TO FILE
+# DESCRIPTION: Saves all changes to new file
+# INPUTS: Error messages from OPENFILE method
+# OUTPUTS: DATE, time, error messages, and fraction with formatting
+# ALGORITHM:
+# DEFINE saveToFile
+#     TRY
+#         SET saveFile to OPEN 'Saint_Emily_assign02_errs.txt' in append mode
+#     EXCEPT FileNotFoundError
+#         PUT "Failed to open (insert saveFile) for reading" to screen
+#     ELSE
+#         SET dateObject to equal the string of datetime.datetime.today()
+#         SET writeToFile to equal "(insert dateObject) (insert errorMsg):
+#           (insert line) and new line"
+#         WRITE writeToFile to saveFile
+#         CLOSE saveFile
+#     #END TRY
+# #END SAVETOFILE()
+# History:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+         
+# SAVES ALL CHANGES TO INPUT FILE
+# takes error message and original line from file and writes it to output file
+# with correct formatting
+def saveToFile(errorMsg, line):
+    try:
+        saveFile = open('Saint_Emily_assign02_errs.txt', 'a')
+    except FileNotFoundError:
+        print ("Failed to open %s for reading" % saveFile)
+    else:
+        dateObject = str(datetime.datetime.today())
+        writeToFile = ("%-30s %-20s: %s \n" %(dateObject, errorMsg, line))
+        saveFile.write(writeToFile)
+        saveFile.close()
+    #END TRY
+#END SAVETOFILE()
+
+###############################################################################
+# FCN NAME: CALCULATE GCD
+# DESCRIPTION: Calculates greatest common denominator
+# INPUTS: the numerator (a) and denominator (b) of fraction
+# OUTPUTS: returns gdc
+# ALGORITHM:
+# DEFINE calculate_gcd
+#     IF b is equal to zero
+#         SET gcd to equal a
+#     ELSE
+#         SET gcd to equal calculate_gcd(b, a%b)
+#     #END IF
+#     RETURN gcd
+# #END CALCULATE_GCD()
+# History:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+# CALCULATES GREATEST COMMON DENOMINATOR
+# using the numerator (a) and denominator (b) of fraction, self it retuns gcd
+def calculate_gcd(a, b):
+    if b == 0:
+        gcd = a
+    else:
+        gcd = calculate_gcd(b, a%b)
+    #END IF
+    return gcd
+#END CALCULATE_GCD()
+
+###############################################################################
+# FCN NAME: OPEN FILE
+# DESCRIPTION: Opens input file for rading and loops through lines
+# INPUTS: lines form ICS4U_assign02_sampleInput.txt
+# OUTPUTS: header and error message to shell
+# ALGORITHM:
+#
+# DEFINE openFile():
+#     TRY
+#         # TRY TO OPEN FILE
+#         SET file to OPEN "ICS4U_assign02_sampleInput.txt" in READ mode
+#     EXCEPT FileNotFoundError
+#         # DISPLAY ERROR MESSAGE IF FILE NOT FOUND
+#         PUT "Failed to open (insert file) for reading" to screen
+#     ELSE
+#         PUT "Assignment 02 - Fraction Calculator" to screen
+#         PUT "Due: March 14, 2021" to screen
+#         PUT "Emily Saint" and new line to screen
+#         FOR line in file
+#             SET valid to equal True
+#             SET continueValid to equal True
+#             STRIP line at new line symbol, SET to equal line
+#             PUT line and end with space to screen
+#
+#             SPLIT line at spaces, SET to equal splitLineOperation
+#             # ERROR MESSAGE FOR INVALID INPUT
+#             IF the length of splitLineOperation is one
+#                 SET valid to equal False
+#                 SET continueValid to equal False
+#                 SET errorMsg to equal "ERROR: invalid input
+#                   for fraction expression"
+#                 CALL print_error and pass through errorMsg and line
+#             # ERROR MESSAGE FOR INVALID INPUT
+#             ELIF the length of splitLineOperation is greater than three
+#                 SET valid to equal False
+#                 SET continueValid to equal False
+#                 SET errorMsg to equal "ERROR: invalid input
+#                   for fraction expression"
+#                 CALL print_error and pass through errorMsg and line
+#                 CALL saveToFile and pass through errorMsg and line
+#             # ERROR MESSAGE FOR MISSING OPERATOR
+#             ELIF splitLineOperation[1] is equal to a space
+#                 SET valid to equal False
+#                 SET errorMsg to equal "ERROR: missing OPERATOR
+#                   in expression"
+#                 CALL print_error and pass through errorMsg and line
+#                 CALL saveToFile and pass through errorMsg and line
+#             #END IF
+# 
+#             # CONTINUE LOOPING THROUGH LINE FOR POTENTIAL ERRORS
+#             IF continueValid is equal to True
+#                 SET lineOperation to equal the string of
+#                   splitLineOperation[onw])
+# 
+#                 SET F1FileLine to equal splitLineOperation[zero]
+#                 SPLIT F1FileLine at foward slash , SET to F1FileLine 
+# 
+#                 SET F2FileLine to equal splitLineOperation[two]
+#                 SPLIT F2FileLine at foward slash , SET to F2FileLine 
+# 
+#                 # ERROR MESSAGE FOR MALFORMED FRACTION
+#                 IF length of F1splitLine or F2splitLine does not equal two
+#                     SET valid to equal False
+#                     SET errorMsg to equal "ERROR: malformed fraction"
+#                     CALL print_error and pass through errorMsg and line
+#                 # ERROR MESSAGE FOR MISSING NUMERATOR
+#                 ELIF F1splitLine[0] or F2splitLine[zero] equals a space
+#                     SET valid to equal False
+#                     SET errorMsg to equal "ERROR: missing NUMERATOR
+#                       in expression"
+#                     CALL print_error and pass through errorMsg and line
+#                 # ERROR MESSAGE FOR DIVISION BY ZERO
+#                 ELIF lineOperation is equal to a forward slash and
+#                   F2splitLine[zero] is equal to zero
+#                     SET errorMsg to equal "ERROR: division by
+#                       ZERO in expression"
+#                     CALL print_error and pass through errorMsg and line
+#                 # ERROR MESSAGE FOR MISSING DENOMINATOR
+#                 ELIF F1splitLine[one] or F2splitLine[1] equals a space
+#                     SET valid to equal False
+#                     SET errorMsg to equal "ERROR: missing
+#                       DENOMINATOR in expression"
+#                     CALL print_error and pass through errorMsg and line
+#                 #END IF
+# 
+#                 # WRITE ERROR MESSAGE TO OUTPUT FILE (CALL FUNCTION)
+#                 IF valid is equal to False
+#                     CALL saveToFile and pass through errorMsg and line
+#                 #END IF
+# 
+#                 # CALCULATE FUNCTION IF NO ERRORS HAVE OCCURED
+#                 IF valid is equal to True
+#                     # set variables
+#                     SET F1num to equal the integer of int(F1splitLine[zero]
+#                     SET F1deno to equal the integer of F1splitLine[one]
+#                     SET F2num to equal the integer of F2splitLine[zero]
+#                     SET F2deno to equal the integer of F2splitLine[one]
+#                     SET F1 to CALL Fraction and pass through F1num and F1deno
+#                     SET F2 to CALL Fraction and pass through F2num and F2deno
+# 
+#                     PUT equals sign and end with space to screen
+#                     MULTIPLY a space by ten minus three minus the length
+#                       of the line and end with space then PUT to screen
+# 
+#                     # calculate result
+#                     IF lineOperation is equal to an asterisk
+#                         SET result to CALL the class F1.product(F2)
+#                     ELIF lineOperation a forward slash
+#                         SET result to CALL the class F1.divide(F2)
+#                     ELIF lineOperation a plus sign
+#                         SET result to CALL the class F1.addition(F2)
+#                     ELIF lineOperation a dash
+#                         SET result to CALL the class F1.difference(F2)
+#                     #END IF
+# 
+#                     # simplify fraction
+#                     SET simplified_result to CALL result.simplify()
+#                     SET implified_result_Split to equal the string of
+#                       the SPLIT of simplified_result at a forward slash
+#                     SET continueSimplify to equal True
+#                     # error message for result if denominator is zero
+#                     IF simplified_result_Split[one] is equal to
+#                       the string zero
+#                         SET errorMsg to equal "ERROR: DENOMINATOR
+#                           is ZERO in result expression. Answer is UNDEFINED."
+#                         CALL print_error and pass through errorMsg and line
+#                         CALL saveToFile and pass through errorMsg and line
+#                         SET continueSimplify to equal False
+#                     #END IF
+#                     # if result is not zero then print simplified to shell
+#                     IF continueSimplify is equal to True
+#                         CALL result._print_answer()
+#                         IF the result and the simplifed result are not
+#                           the same 
+#                             SET simplified_result to equal the string of
+#                               simplified_result
+#                             SET wordSimplified to equal "SIMPLIFIED: "
+#                             SET printLineToShell to equal wordSimplified
+#                               and simplified_result
+#                             PUT " (insert printLineToShell)" space -20
+#                               and end with space to screen
+#                         #END IF
+#                     #END IF
+#                     print()
+#                 #END IF
+#         file.close()
+#     #END TRY
+# #END OPENFILE()
+#
+# History:
+# 2021.11.03 CREATION
+# 2021.11.03 rough output of for line in file loop
+# 2021.12.03 calling class, return result, and
+#   implementaion of simplied fraction
+# 2021.13.03 error message implementaion and final formatting
+# 2021.13.03 Pseudocode and notes
+# 2021.14.03 Header modification
+# 2021.14.03 FINAL
+###############################################################################
+
+#OPENS INPUT FILE FOR READING
+def openFile():
+    try:
+        # TRY TO OPEN FILE
+        file = open("ICS4U_assign02_sampleInput.txt", "r")
+    except FileNotFoundError:
+        # DISPLAY ERROR MESSAGE IF FILE NOT FOUND
+        print ("Failed to open %s for reading" %file)
+    else:
+        print("Assignment 02 - Fraction Calculator")
+        print("      Due: March 14, 2021")
+        print("          Emily Saint \n")
+        for line in file:
+            valid = True
+            continueValid = True
+            line = line.strip("\n")
+            print(line, end='')
+
+            splitLineOperation = line.split(" ")
+            # ERROR MESSAGE FOR INVALID INPUT
+            if len(splitLineOperation) == 1:
+                valid = False
+                continueValid = False
+                errorMsg = ("ERROR: invalid input for fraction expression")
+                print_error (errorMsg, line)
+            # ERROR MESSAGE FOR INVALID INPUT
+            elif len(splitLineOperation) > 3:
+                valid = False
+                continueValid = False
+                errorMsg = ("ERROR: invalid input for fraction expression")
+                print_error (errorMsg, line)
+                saveToFile(errorMsg, line)
+            # ERROR MESSAGE FOR MISSING OPERATOR
+            elif splitLineOperation[1] == "":
+                valid = False
+                errorMsg = ("ERROR: missing OPERATOR in expression")
+                print_error (errorMsg, line)
+                saveToFile(errorMsg, line)
+            #END IF
+
+            # CONTINUE LOOPING THROUGH LINE FOR POTENTIAL ERRORS
+            if continueValid == True:
+                lineOperation = str(splitLineOperation[1])
+
+                F1FileLine = splitLineOperation[0]
+                F1splitLine = F1FileLine.split("/")
+
+                F2FileLine = splitLineOperation[2]
+                F2splitLine = F2FileLine.split("/")
+
+                # ERROR MESSAGE FOR MALFORMED FRACTION
+                if len(F1splitLine) != 2 or len(F2splitLine) != 2 :
+                    valid = False
+                    errorMsg = ("ERROR: malformed fraction")
+                    print_error (errorMsg, line)
+                # ERROR MESSAGE FOR MISSING NUMERATOR
+                elif F1splitLine[0] == "" or F2splitLine[0] == "":
+                    valid = False
+                    errorMsg = ("ERROR: missing NUMERATOR in expression")
+                    print_error (errorMsg, line)
+                # ERROR MESSAGE FOR DIVISION BY ZERO
+                elif lineOperation == "/" and F2splitLine[0] == 0:
+                    errorMsg = ("ERROR: division by ZERO in expression")
+                    print_error (errorMsg, line)
+                # ERROR MESSAGE FOR MISSING DENOMINATOR
+                elif F1splitLine[1] == "" or F2splitLine[1] == "":
+                    valid = False
+                    errorMsg = ("ERROR: missing DENOMINATOR in expression")
+                    print_error (errorMsg, line)
+                #END IF
+
+                # WRITE ERROR MESSAGE TO OUTPUT FILE (CALL FUNCTION)
+                if valid == False:
+                    saveToFile(errorMsg, line)
+                #END IF
+
+                # CALCULATE FUNCTION IF NO ERRORS HAVE OCCURED
+                if valid == True:
+                    # set variables
+                    F1num = int(F1splitLine[0])
+                    F1deno = int(F1splitLine[1])
+                    F2num = int(F2splitLine[0])
+                    F2deno = int(F2splitLine[1])
+                    F1 = Fraction(F1num, F1deno)
+                    F2 = Fraction(F2num, F2deno)
+
+                    print(' = ', end='')
+                    # right-pad to total of 20
+                    # add 20 - 3 - len(line)
+                    print(' ' * (20 - 3 - len(line)), end='')
+
+                    # calculate result
+                    if lineOperation == "*":
+                         result = F1.product(F2)
+                    elif lineOperation == "/":
+                        result = F1.divide(F2)
+                    elif lineOperation == "+":
+                        result = F1.addition(F2)
+                    elif lineOperation == "-":
+                        result = F1.difference(F2)
+                    #END IF
+
+                    # simplify fraction
+                    simplified_result = result.simplify()
+                    simplified_result_Split = (str(simplified_result)).split("/")
+                    continueSimplify = True
+                    # error message for result if denominator is zero
+                    if simplified_result_Split[1] == "0":
+                        errorMsg = ("ERROR: DENOMINATOR is ZERO in result expression. Answer is UNDEFINED.")
+                        print_error (errorMsg, line)
+                        saveToFile(errorMsg, line)
+                        continueSimplify = False
+                    #END IF
+                    # if result is not zero then print simplified to shell
+                    if continueSimplify == True:
+                        result._print_answer()
+                        if not (result.equally_simplified(simplified_result)):
+                            simplified_result = str(simplified_result)
+                            wordSimplified = "SIMPLIFIED: "
+                            printLineToShell = (wordSimplified + simplified_result)
+                            print (" %-20s" %printLineToShell, end="")
+                        #END IF
+                    #END IF
+                    print()
+                #END IF
+        file.close()
+    #END TRY
+#END OPENFILE()
+
+###############################################################################
+# FCN NAME: MAIN FUNCTION
+# DESCRIPTION: Calls open file method
+# INPUTS: none
+# OUTPUTS: none
+# ALGORITHM:
+# CALL openFile()
+# History:
+# 2021.12.03 CREATION
+# 2021.13.03 Pseudocode and notes
+# 2021.13.03 FINAL
+###############################################################################
+
+#START OF MAIN ALGORITHM
+
+# open file to loop through program 
+openFile()
+
+#END OF MAIN ALGORITHM
