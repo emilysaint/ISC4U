@@ -1,0 +1,67 @@
+##############################################
+# Name: Emily Saint
+# Course: ICS4U
+# File: saint_emily_EX014.py
+# Description:
+# Dictionaries introduction
+# History:
+# 2021.22.02 Creation
+###############################################
+
+# FOR CARLIST
+car1 = {"brand": "Ford","model": "Mustang","year": 1964}
+car2 = {"brand": "Ford","model": "Pinto","year": 1974}
+car3 = {"brand": "Ford","model": "Fiesta","year": 1984}
+car4 = {"brand": "Honda","model": "Civic","year": 2002}
+car5 = {"brand": "Honda","model": "Fit","year": 2015}
+car6 = {"brand": "Toyota","model": "Prius","year": 2011}
+car7 = {"brand": "Toyota","model": "Mustang","year": 2015}
+car8 = {"brand": "Toyota","model": "Corolla","year": 2020}
+car9 = {"brand": "Porche","model": "Targa","year": 1977}
+car10 = {"brand": "Porche","model": "Carerra","year": 1990}
+
+carList = [car1,car2,car3,car4,car5,car6,car7,car8,car9,car10]
+
+
+## MAIN CODE ##
+
+print("All Toyota cars")
+for car in carList:
+    if (car["brand"]) == "Toyota":
+        print("Brand: %-10s  Model: %-10s  (%d) " \
+              %((car["brand"]),(car["model"]), (car["year"])))
+    #ENDIF
+#ENDFOR
+        
+print()
+print("Cars whose year is less than 2000")
+for car in carList:
+    if (car["year"]) < 2000:
+        print("Brand: %-10s  Model: %-10s  (%d) " \
+              %((car["brand"]),(car["model"]), (car["year"])))
+    #ENDIF
+#ENDFOR
+
+print()
+print("All mustangs")
+for car in carList:
+    if (car["model"]) == "Mustang":
+        print("Brand: %-10s  Model: %-10s  (%d) " \
+              %((car["brand"]),(car["model"]),(car["year"])))
+        del (car["brand"]),(car["model"]),(car["year"])
+        carList.remove(car)
+    #ENDIF
+#ENDFOR
+    
+print()
+print("Updated list")
+for car in range(len(carList)): 
+    print (carList[car])
+
+print()
+print("Bugatti Chiron 2016 Added to list")
+car11 = {"brand": "Bugatti","model": "Chiron","year": 2016}
+carList.append(car11)
+for car in range(len(carList)): 
+    print (carList[car])
+#ENDFOR
