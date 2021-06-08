@@ -1,0 +1,109 @@
+##############################################
+# Name: Emily Saint
+# Course: ICS4U
+# File: saint_emily_EX013.py
+# Description:
+# TheatreSales.py loops prompting the user
+#   for a seat to be bought
+# History:
+# 2021.12.02 Creation
+###############################################
+
+ROWS = 9
+SEATS = 24
+
+print()
+print ("     Emily's Cinema Seat Booking. ")
+print()
+print ("    ", end='')
+for seat in range(SEATS):
+    seat = seat+1
+    print(" %02d " % seat, end='')
+print()
+#END FOR
+
+for row in range(ROWS):
+    row = row+1
+    print(" %02d |" %row, end='')
+    for seat in range(SEATS):
+        taken = 0
+        print (" %s " %taken, end =' ')
+    print()
+    #END FOR
+#END FOR
+print()
+
+
+sold = [None] * ROWS
+for row in range(ROWS) :
+    sold[row] = [0]*SEATS
+#END FOR
+
+userRowCopy = 0
+userSeatCopy = 0
+valid = False
+while not valid:
+
+    userValidSeet = False
+    while not userValidSeet:
+
+        userValid = False
+        while not userValid:
+            userRow = (int(input("Print row number: ")))
+            if userRow <= (ROWS) and 0 < userRow:
+                userValid = True
+            else:
+                userValid = False
+            #END IF
+        #END WHILE
+        userValid = False
+        while not userValid:
+            userSeat = (int(input("Print seat number: ")))
+            if userSeat <= (SEATS) and 0 < userSeat:
+                userValid = True
+            else:
+                userValid = False
+            #END IF
+        #END WHILE
+
+        if userSeatCopy == userSeat and userRowCopy == userRow:
+            print("Taken")
+            userValidSeet = False
+        else:
+            userSeatCopy = userSeat
+            userRowCopy = userRow
+            userValidSeet = True
+        #END IF
+    #END WHILE
+
+    sold[userRow-1][userSeat-1] = "X"
+    print()
+    
+    print("    ", end='')
+    for seat in range(SEATS):
+        seat = seat+1
+        print(" %02d " % seat, end='')
+    print()
+    #END FOR
+    
+    for row in range(ROWS):
+        print(" %02d |" % (row+1), end='')
+        
+        for seat in range(SEATS):
+            #print("DEBUG: row: %d\tseat:%d" % (row,seat))
+            print (" %s " % sold[row][seat], end =' ')
+        print()
+        #END FOR
+    #END FOR
+
+    print()
+    again = str(input("Would you like to book another seat? (yes/no) "))
+    again = again.lower()
+    print()
+    if again == "yes":
+        valid = False
+    else:
+        print("You have now exited to program.")
+        valid = True
+    #END IF 
+#END WHILE
