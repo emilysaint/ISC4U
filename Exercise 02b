@@ -1,0 +1,81 @@
+##############################################
+# Name: Emily Saint
+# Course: ICS4U
+# File: saint_emily_EX014.py
+# Description:
+# Dictionaries introduction (extra)
+# History:
+# 2021.22.02 Creation
+###############################################
+
+#################################################
+
+def check(code_user) :
+  try:
+    i = str(code_user)
+  except ValueError:
+    return False
+  else :
+    return True
+#END check()
+
+#################################################
+
+airports = ["ATL: Atlanta, GA, USA",
+            "PEK: Beijing, China",
+            "DXB: Dubai, United Arab Emirates",
+            "LAX: Los Angeles, CA, USA",
+            "HND: Tokyo, Japan",
+            "ORD: Chicago, IL, USA",
+            "LHR: London, England, United Kingdom",
+            "HKG: Hong Kong, Hong Kong"]
+
+## MODIFY LIST ##
+
+airDict={}
+for airport in airports:
+  #print (airport)
+  airportSplit = airport.split(":")
+  key = airportSplit[0].strip()
+  value = airportSplit[1].split()
+  airDict[key]=value
+#ENDFOR
+
+#################################################
+
+## MAIN CODE ##
+
+check_again = False
+while not check_again:
+  code_user_ok = False
+  while not code_user_ok:
+    code_user = input("Print airport code: ")
+    check(code_user)
+    if code_user == "ATL" or code_user == "PEK" or \
+      code_user == "DXB" or code_user == "LAX" or \
+      code_user == "HND" or code_user == "ORD" or \
+      code_user == "LHR" or code_user == "HKG":
+      code_user_ok = True
+    else:
+      code_user_ok = False
+    #END IF
+  #END WHILE
+  print()
+
+  for key in airDict:
+    if key == code_user:
+      print("Airport code:%-10s Airport information:%-10s" %(key, airDict[key]))
+    #END IF
+  #END FOR
+  print()
+
+  again = input("Try again? (yes/no): ")
+  again = str(again)
+  again = again.lower()
+  if again == "yes":
+    check_again = False
+  else:
+    print("You have exited the program.")
+    check_again = True
+  #END IF
+#END WHILE
