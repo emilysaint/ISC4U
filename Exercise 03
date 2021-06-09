@@ -1,0 +1,113 @@
+##################################################################################
+# Name: Emily Saint
+# Course: ICS4U
+# File: saint_emily_EXO104.py
+# Description:
+# Constructors - Fraction class to include the __init__ method. 
+# History:
+# 2021.09.03 Creation
+##################################################################################
+
+class Fraction:
+    def __init__ (self, n=0, d=1):
+        self.num = n
+        self.den = d
+    
+    def fraction_size(self):
+        return abs(self.num/float(self.den))
+
+    def larger_fraction(self, other_fraction):
+        if (self.fraction_size() >= other_fraction.fraction_size()):
+            return self
+        else:
+            return  other_fraction
+
+    def times (self, other_fraction):
+        result = Fraction()
+        result.num = self.num * other_fraction.num
+        result.den = self.den * other_fraction.den
+        print("Product of (%d/%d) x (%d/%d)" %(self.num, self.den, other_fraction.num, other_fraction.den))
+        return result
+    
+    def plus_equals (self, other_fraction):
+        result = Fraction()
+        result.num = (self.num * other_fraction.den) + (other_fraction.num * self.den)
+        result.den = self.den * other_fraction.den
+        print("Sum of (%d/%d)x(%d/%d) + (%d/%d)x(%d/%d)" %(self.num, self.den, other_fraction.den, other_fraction.den, other_fraction.num, other_fraction.den, self.den, self.den))
+        return result
+
+    def plus (self, other_fraction):
+        result = Fraction()
+        result.num = (self.num * other_fraction.den) + (other_fraction.num * self.den)
+        result.den = self.den * other_fraction.den
+        return result
+
+def simplify(a,b):
+    if(b==0):
+        gcd = a
+    else:
+        gcd = simplify(b,a%b)
+    return gcd
+
+# INPUT OF NUMERATORS AND DENOMINATORS
+print("CONSTRUCTORS  WITH  FRACTIONS")
+num1 = input("Numerator of first fraction: ")
+den1 = input("Denomimator of first fraction: ")
+num2 = input("Numerator of second fraction: ")
+den2 = input("Denomimator of second fraction: ")
+num1 = int(num1)
+den1 = int(den1)
+num2 = int(num2)
+den2 = int(den2)
+print()
+
+# DISPLAY BASE FRACTIONS
+f = Fraction(num1, den1)
+print("Base fraction number one: %s/%s" % (f.num, f.den))
+g = Fraction(num2, den2)
+print("Base fraction number two: %s/%s" % (g.num, g.den))
+
+# CALCULATE SIZE OF FRACTIONS
+size_of_f = f.fraction_size() # store the size of f 
+size_of_g = g.fraction_size() # store the size of g
+
+# DISPLAY LARGER FRACTION
+r = f.larger_fraction(g)
+print("Larger fraction is: %s/%s" % (r.num, r.den))
+print()
+
+### SIZE DIFFERENCE OF FRACTIONS (ABSOLUTE VALUE)
+##differenceInSize = size_of_f - size_of_g
+##if differenceInSize < 0:
+##    differenceInSize = differenceInSize*-1
+### DISPLAY SIZE DIFFERENCE OF FRACTIONS
+##differenceInSize = round(differenceInSize, 2)
+##print("Difference is: ", differenceInSize)
+##print()
+
+# PRODUCT OF BOTH FRACTIONS 
+h = f.times(g)
+# Simplify
+a = (h.num)
+b = (h.den)
+gcd = (simplify(a,b))
+simplifedNum = h.num / gcd
+simplifedDen = h.den / gcd
+print("Product is (unsimplified) %s/%s or (simplified) %d/%d" % (h.num, h.den, simplifedNum, simplifedDen))
+print()
+
+# SUM OF BOTH FRACTIONS
+h = f.plus_equals(g)
+# Simplify
+a = (h.num)
+b = (h.den)
+gcd = (simplify(a,b))
+simplifedNum = h.num / gcd
+simplifedDen = h.den / gcd
+print("Sum is (unsimplified) %s/%s or (simplified) %d/%d" % (h.num, h.den, simplifedNum, simplifedDen))
+
+
+
+### SUM OF BOTH FRACTIONS
+##h = f.plus(g)
+##print("Sum is (unsimplified): %s/%s" % (h.num, h.den))
